@@ -48,7 +48,7 @@ export default {
   methods: {
     sendMessage: function() {
       if (this.message.content == "") return;
-      this.message.date = Date.now();
+      this.message.timestamp = Date.now();
       this.serverNamespace.emit("messageSend", {
         channel: this.activeChannel.channelName,
         message: this.message
@@ -59,7 +59,7 @@ export default {
       if (e.target.scrollTop !== 0) return
       this.serverNamespace.emit('fetchMessages', {
         channel: this.activeChannel.channelName,
-        lastMesssageIndex: this.activeChannel.messages[0].date
+        lastMesssageTimestamp: this.activeChannel.messages[0].timestamp
       })
     }
   }
