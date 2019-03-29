@@ -44,6 +44,7 @@ const user = {
     async logout({ commit, dispatch }) {
       commit('LOGOUT');
       dispatch('disconnectSockets', null, { root: true });
+      axios.get('http://localhost:3000/api/users/logout')
     }
   },
   getters: {

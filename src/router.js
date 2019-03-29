@@ -4,6 +4,7 @@ import _Server from './views/Server'
 import Register from './views/Register'
 import Login from './views/Login'
 import NewServerForm from './views/NewServerForm'
+import Editor from './views/Editor'
 import test from './views/test'
 import store from './store/index'
 
@@ -52,6 +53,18 @@ export default new Router({
 			}
 		},
 		{
+			path: '/edit/:serverName',
+			name: 'Editor',
+			component: Editor,
+			beforeEnter: (to, from, next) => {
+				if (!store.getters.user) {
+					next('/login')
+				} else {
+					next()
+				}
+			}
+		},
+    {
 			path: '/new',
 			name: 'NewServerForm',
 			component: NewServerForm,

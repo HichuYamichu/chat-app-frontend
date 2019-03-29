@@ -6,6 +6,11 @@
           <v-spacer></v-spacer>
           <v-toolbar-title class="font-weight-medium display-1">{{ serverName }}</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-btn small flat fab @click="edit">
+            <v-icon>
+              create
+            </v-icon>
+          </v-btn>
         </v-toolbar>
       </v-flex>
       <v-flex xs3 sm2 md2 lg1>
@@ -38,6 +43,9 @@ export default {
     },
     createChannel: function() {
       this.serverNamespace.emit("createChannel", this.activeChannel);
+    },
+    edit: function() {
+      this.$router.push(`/edit/${this.serverName}`)
     }
   },
   watch: {

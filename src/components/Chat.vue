@@ -2,7 +2,7 @@
   <div class="chat">
     <v-layout row wrap justify-space-around>
       <v-flex xs12 class="chats" v-scroll="onScroll" id="style-1">
-        <v-list v-scroll="onScroll">
+        <v-list v-scroll="onScroll" two-line >
           <message-block
             v-for="(message, index) in activeChannel.messages"
             :key="index"

@@ -11,7 +11,7 @@ import vuescroll from 'vue-scroll'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-
+axios.defaults.withCredentials = true;
 import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Vuetify, {
