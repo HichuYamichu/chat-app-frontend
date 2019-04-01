@@ -20,9 +20,9 @@
 <script>
 import MessageBlock from "../components/Message";
 import _ from "lodash.throttle";
+import { mapGetters } from 'vuex'
 
 export default {
-  props: ["serverName"],
   components: {
     MessageBlock,
   },
@@ -35,18 +35,16 @@ export default {
     };
   },
   computed: {
-    serverNamespace: function() {
-      return this.$store.getters.activeServer(this.serverName).namespace;
-    },
-    activeChannel: function() {
-      return this.$store.getters.activeChannel(this.serverName);
-    }
+    ...mapGetters([
+      'activeChannel',
+      'activeServer'
+    ])
   },
   methods: {
     sendMessage: function() {
       if (this.message.content == "") return;
       this.message.timestamp = Date.now();
-      this.serverNamespace.emit("messageSend", {
+      this.activeServer.namespace.emit("messageSend", {
         channel: this.activeChannel.channelName,
         message: this.message
       });
@@ -54,7 +52,7 @@ export default {
     },
     onScroll: function(e) {
       if (e.target.scrollTop !== 0) return
-      this.serverNamespace.emit('fetchMessages', {
+      this.activeServer.namespace.emit('fetchMessages', {
         channel: this.activeChannel.channelName,
         lastMesssageTimestamp: this.activeChannel.messages[0].timestamp
       })

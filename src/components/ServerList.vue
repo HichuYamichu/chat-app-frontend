@@ -1,16 +1,6 @@
 <template>
   <v-list class="pa-0">
-    <v-list-tile class="mb-4">
-      <v-list-tile-action>
-        <v-btn class="my-3" fab icon bloc small>
-          <v-avatar size="54">
-            <img src="../assets/3.png">
-          </v-avatar>
-        </v-btn>
-      </v-list-tile-action>
-    </v-list-tile>
-    <v-divider></v-divider>
-    <v-list-tile class="mb-2" v-for="(server, index) in $store.getters.serverList" :key="index">
+    <v-list-tile class="my-2" v-for="(server, index) in $store.getters.serverList" :key="index">
       <v-list-tile-action>
         <v-btn class="my-3" fab icon bloc small @click="go(server)">
           <v-avatar>
@@ -26,6 +16,7 @@
 export default {
   methods: {
     go: function(server, index) {
+      this.$store.commit('SET_ACTIVESERVER', server)
 			this.$router.push({ path: `/servers/${server}`})
 		}
   }

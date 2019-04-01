@@ -21,8 +21,8 @@ const actions = {
   },
   joinedServer({ commit, dispatch }, serverData) {
     serverData.namespace = Vue.$addServer(serverData.serverName);
-    (serverData.activeChannel = 'main'),
-      dispatch('initEventLiteners', serverData);
+    serverData.activeChannel = 'main'
+    dispatch('initEventLiteners', serverData);
   },
   handleLogin({ commit, dispatch }, servers) {
     Object.keys(servers).forEach(server => {
@@ -31,7 +31,7 @@ const actions = {
       dispatch('initEventLiteners', servers[server]);
     });
   },
-  initEventLiteners({ commit, dispatch }, server) {
+  initEventLiteners({ commit }, server) {
     server.namespace.emit(
       'init',
       server.channels.map(channel => channel.channelName)
@@ -42,17 +42,9 @@ const actions = {
     });
 
     server.namespace.on('fetchedMessages', data => {
-      commit('MESSAGE_RECIVED', { serverName: server.serverName, channelName: data.channel, message: data.message });
+      commit('APPEND_MESSAGES', { serverName: server.serverName, channelName: data.channel, message: data.message });
     });
     commit('UPDATE_SERVERS', server);
-  },
-  messageRecived({ commit, getters }, payload) {
-    const channel = getters.activeChannel(payload.serverName);
-    commit('MESSAGE_RECIVED', { channelName: channel.channelName, message: payload.message });
-  },
-  fetchedMessages({ commit, getters }, payload) {
-    const channel = getters.activeChannel(payload.serverName);
-    commit('APPEND_MESSAGES', { channel, messages: payload.messages });
   },
   disconnectSockets({ commit, getters }) {
     Vue.$destroySockets(getters.servers);

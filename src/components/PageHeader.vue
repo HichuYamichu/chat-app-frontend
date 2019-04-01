@@ -1,6 +1,9 @@
 <template>
   <nav>
-    <v-toolbar flat app dark class="primary">
+    <v-toolbar flat app dark class="primary" clipped-left>
+      <v-avatar size="54">
+        <img src="../assets/3.png">
+      </v-avatar>
       <v-toolbar-title @click="go">Chat-app</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
@@ -10,14 +13,14 @@
         <v-btn v-if="$store.getters.user" block flat @click="logout">Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-     <v-navigation-drawer app v-model="drawer" mini-variant permanent class="secondary">
+    <v-navigation-drawer app v-model="drawer" mini-variant permanent clipped class="secondary">
       <server-list/>
     </v-navigation-drawer>
   </nav>
 </template>
 
 <script>
-import ServerList from './ServerList'
+import ServerList from "./ServerList";
 export default {
   components: {
     ServerList
@@ -30,11 +33,11 @@ export default {
   methods: {
     logout: function() {
       this.$store.dispatch("logout");
-			this.$router.push('/login')
+      this.$router.push("/login");
     },
-		go: function(server, index) {
-			this.$router.push('/')
-		}
+    go: function(server, index) {
+      this.$router.push("/");
+    }
   }
 };
 </script>

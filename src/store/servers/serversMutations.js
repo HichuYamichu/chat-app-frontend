@@ -3,6 +3,9 @@ const mutations = {
     state.servers[server.serverName] = server;
     state.serverList.push(server.serverName);
   },
+  SET_ACTIVESERVER(state, serverName) {
+    state.activeServer = serverName
+  },
   CLEAR_SERVERS(state) {
     state.servers = {};
   },
@@ -15,7 +18,10 @@ const mutations = {
       .messages.push(payload.message);
   },
   APPEND_MESSAGES(state, payload) {
-    payload.channel.messages.unshift(...payload.messages);
+    console.log(payload)
+    state.servers[payload.serverName].channels
+      .find(channel => channel.channelName === payload.channelName)
+      .messages.unshift(...payload.messages);
   }
 };
 

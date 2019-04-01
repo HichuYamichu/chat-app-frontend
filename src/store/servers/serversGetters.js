@@ -1,10 +1,11 @@
 const getters = {
   servers: state => state.servers,
   serverList: state => state.serverList,
-  activeServer: state => serverName => state.servers[serverName],
-  activeChannel: state => serverName =>
-    state.servers[serverName].channels.find(
-      channel => channel.channelName === state.servers[serverName].activeChannel
+  activeServer: state => state.servers[state.activeServer],
+  activeChannel: state =>
+    state.servers[state.activeServer].channels.find(
+      channel =>
+        channel.channelName === state.servers[state.activeServer].activeChannel
     )
 };
 
