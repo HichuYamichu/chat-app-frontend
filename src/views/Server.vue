@@ -2,19 +2,19 @@
   <v-card class="pb-1">
     <v-layout row wrap justify-space-between>
       <v-flex xs12 class="mb-2">
-        <v-toolbar card flat color="secondary">
+        <v-toolbar card flat color="tertiary">
           <v-spacer></v-spacer>
           <v-toolbar-title class="font-weight-medium display-1">{{ serverName }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn small flat fab @click="edit">
+          <v-btn v-if="editPermissions" small flat fab @click="edit">
             <v-icon>
-              create
+              edit
             </v-icon>
           </v-btn>
         </v-toolbar>
       </v-flex>
       <v-flex xs3 sm2 md2 lg1>
-        <channel-list :serverName="serverName"/>
+        <channel-list :key="serverName" :serverName="serverName"/>
       </v-flex>
       <v-flex xs7 sm9 md10 lg11>
         <chat :key="serverName" :serverName="serverName"/>
@@ -37,12 +37,14 @@ export default {
       serverName: this.$route.params.serverName
     };
   },
+  computed: {
+    editPermissions: function() {
+      return this.$store.state.user.username === this.$store.getters.activeServer.owner
+    }
+  },
   methods: {
     changeServer: function(serverName) {
       this.serverName = serverName;
-    },
-    createChannel: function() {
-      this.serverNamespace.emit("createChannel", this.activeChannel);
     },
     edit: function() {
       this.$router.push(`/edit/${this.serverName}`)

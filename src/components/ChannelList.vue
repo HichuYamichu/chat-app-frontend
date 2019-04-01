@@ -7,7 +7,7 @@
     >
       <v-btn
         :input-value="$store.getters.activeChannel(serverName).channelName !== channel.channelName ? 'active' : ''"
-        color="primary"
+        color="accent"
         block
         flat
         outline
@@ -55,7 +55,7 @@ export default {
       this.$store.getters
         .activeServer(this.serverName)
         .namespace.emit("createChannel", this.newChannelName);
-        // TODO ERROR HANDLING AND DYNAMIC UPDATE
+      // TODO ERROR HANDLING AND DYNAMIC UPDATE
       this.dialog = false;
     }
   }

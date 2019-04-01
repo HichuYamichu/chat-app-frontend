@@ -41,6 +41,7 @@ export default {
           password: this.password
         });
       } catch (error) {
+        console.log(error)
         this.error = true
 				this.errorMessage = error.response.data.error
       }

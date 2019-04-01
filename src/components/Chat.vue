@@ -40,9 +40,6 @@ export default {
     },
     activeChannel: function() {
       return this.$store.getters.activeChannel(this.serverName);
-    },
-    allChannels: function() {
-      return this.$store.getters.activeServer(this.serverName).channels;
     }
   },
   methods: {

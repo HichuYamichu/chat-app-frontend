@@ -5,7 +5,7 @@ import Register from './views/Register'
 import Login from './views/Login'
 import NewServerForm from './views/NewServerForm'
 import Editor from './views/Editor'
-import test from './views/test'
+import Home from './views/Home'
 import store from './store/index'
 
 Vue.use(Router)
@@ -16,7 +16,7 @@ export default new Router({
     {
 			path: '/',
 			name: 'Chat-app',
-			component: test,
+			component: Home,
 			beforeEnter: (to, from, next) => {
 				if (!store.getters.user) {
 					next('/login')
@@ -24,11 +24,6 @@ export default new Router({
 					next()
 				}
 			}
-		},
-		{
-			path: '/test',
-			name: 'test',
-			component: test
 		},
 		{
 			path: '/login',

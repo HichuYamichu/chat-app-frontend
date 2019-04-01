@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import user from './user'
-import servers from './servers'
+import user from './user/index'
+import servers from './servers/index'
 
 
 Vue.use(Vuex);

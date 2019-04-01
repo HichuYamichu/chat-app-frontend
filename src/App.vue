@@ -1,29 +1,13 @@
 <template>
-  <v-app>
+  <v-app dark>
     <page-header app/>
     <v-content>
       <v-container fluid>
-        <v-layout>
-          <div v-if="$store.getters.user" class="mr-4 ">
-            <v-btn
-              class="my-3"
-              fab
-              icon
-              block
-              small
-              v-for="(server, index) in $store.getters.servers"
-              :key="index"
-              @click="go(server)"
-            >
-              <v-avatar>
-                <img src="https://randomuser.me/api/portraits/men/85.jpg">
-              </v-avatar>
-            </v-btn>
-          </div>
-          <v-flex xs12>
-            <router-view></router-view>
-          </v-flex>
-        </v-layout>
+      <v-layout row wrap justify-space-around>
+        <v-flex xs12>
+          <router-view></router-view>
+        </v-flex>
+      </v-layout>
       </v-container>
     </v-content>
   </v-app>
@@ -35,15 +19,6 @@ import PageHeader from "./components/PageHeader";
 export default {
   components: {
     PageHeader
-  },
-  methods: {
-    logout: function() {
-      this.$store.dispatch("logout");
-      this.$router.push("/");
-    },
-    go: function(server, index) {
-      this.$router.push({ path: `/servers/${server.serverName}` });
-    }
   }
 };
 </script>
@@ -67,5 +42,11 @@ html {
   position: fixed;
   left: 0;
   display: block;
+}
+
+.serverList {
+  border-radius: 25px;
+  padding: 10px;
+  background-color: #E5E2E2;
 }
 </style>
