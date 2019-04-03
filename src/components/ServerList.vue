@@ -1,6 +1,6 @@
 <template>
   <v-list class="pa-0">
-    <v-list-tile class="my-2" v-for="(server, index) in $store.getters.serverList" :key="index">
+    <v-list-tile class="my-2" v-for="(server, index) in servers" :key="index">
       <v-list-tile-action>
         <v-btn class="my-3" fab icon bloc small @click="go(server)">
           <v-avatar>
@@ -13,11 +13,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
+  computed: {
+    ...mapGetters([
+      'servers'
+    ])
+  },
   methods: {
     go: function(server, index) {
-      this.$store.commit('SET_ACTIVESERVER', server)
-			this.$router.push({ path: `/servers/${server}`})
+      this.$store.commit('SET_CURRENT_SERVER_NAME', server.serverName)
+			this.$router.push({ path: `/servers/${server.serverName}`})
 		}
   }
 };

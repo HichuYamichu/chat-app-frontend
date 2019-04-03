@@ -7,9 +7,7 @@
           <v-toolbar-title class="font-weight-medium display-1">{{ activeServer.serverName }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn small flat fab @click="edit">
-            <v-icon>
-              edit
-            </v-icon>
+            <v-icon>edit</v-icon>
           </v-btn>
         </v-toolbar>
       </v-flex>
@@ -26,26 +24,19 @@
 <script>
 import Chat from "../components/Chat";
 import ChannelList from "../components/ChannelList";
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     Chat,
     ChannelList
   },
-  data() {
-    return {
-      serverName: this.$route.params.serverName
-    };
-  },
   computed: {
-    ...mapGetters([
-      'activeServer'
-    ])
+    ...mapGetters(["activeServer"])
   },
   methods: {
     edit: function() {
-      this.$router.push(`/edit/${activeServer.serverName}`)
+      this.$router.push(`/edit/${activeServer.serverName}`);
     }
   }
 };

@@ -2,7 +2,7 @@
   <v-list>
     <v-list-tile-title class="text-xs-center headline mb-2">Channels</v-list-tile-title>
     <v-list-tile
-      v-for="(channel, index) in $store.getters.activeServer.channels"
+      v-for="(channel, index) in activeServer.channels"
       :key="index"
     >
       <v-btn
@@ -29,6 +29,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'activeServer',
       'activeChannel'
     ])
   },
@@ -36,7 +37,7 @@ export default {
     changeChannel: function(channelName) {
       this.$store.commit("CHANGE_ACTIVECHANNEL", {
         channelName: channelName,
-        serverName: this.$store.getters.activeServer.serverName
+        serverName: this.activeServer.serverName
       });
     },
     createChannel: function() {

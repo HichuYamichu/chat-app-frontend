@@ -24,7 +24,9 @@ const actions = {
         password: credentials.password
       });
       commit('SET_USER', res.data.user);
-      dispatch('handleLogin', res.data.servers, { root: true });
+      res.data.servers.forEach(server => {
+        dispatch('joinServer', server, { root: true });
+      });
       router.push('/');
     } catch (error) {
       throw error;

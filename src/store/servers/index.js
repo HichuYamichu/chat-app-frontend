@@ -1,7 +1,7 @@
-import stare from './serversState'
-import mutations from './serversMutations'
-import actions from './serversActions'
-import getters from './serversGetters'
+import stare from './serverState'
+import mutations from './serverMutations'
+import actions from './serverActions'
+import getters from './serverGetters'
 
 const servers = {
   state: stare,
