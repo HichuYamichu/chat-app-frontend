@@ -32,12 +32,31 @@ export default {
     ChannelList
   },
   computed: {
-    ...mapGetters(["activeServer"])
+    ...mapGetters(["activeServer", "servers"]),
   },
   methods: {
     edit: function() {
       this.$router.push(`/edit/${activeServer.serverName}`);
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (to.params.serverName) {
+      if (from.params.serverName) {
+        this.servers.find(
+          server => server.serverName === from.params.serverName
+        ).isActive = false;
+      }
+      this.servers.find(
+        server => server.serverName === to.params.serverName
+      ).isActive = true;
+    }
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    this.servers.find(
+      server => server.serverName === from.params.serverName
+    ).isActive = false;
+    next();
   }
 };
 </script>

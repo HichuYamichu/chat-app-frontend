@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     go: function(server, index) {
-      this.$store.commit('SET_CURRENT_SERVER_NAME', server.serverName)
 			this.$router.push({ path: `/servers/${server.serverName}`})
 		}
   }

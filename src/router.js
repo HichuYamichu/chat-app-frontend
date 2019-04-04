@@ -43,6 +43,9 @@ export default new Router({
 				if (!store.getters.user) {
 					next('/login')
 				} else {
+          if (to.params.serverName) {
+            store.getters.servers.find(server => server.serverName === to.params.serverName).isActive = true
+          }
 					next()
 				}
 			}

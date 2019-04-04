@@ -1,6 +1,5 @@
 const state = {
-  servers: [],
-  currentServerName: ''
+  servers: []
 }
 
 export default state

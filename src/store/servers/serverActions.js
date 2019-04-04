@@ -5,6 +5,7 @@ const actions = {
   joinServer({ commit }, server) {
     server.namespace = Vue.$addServer(server.serverName);
     server.currentChannel = 'main'
+    server.isActive = false
     server.namespace.emit(
       'init',
       server.channels.map(channel => channel.channelName)
