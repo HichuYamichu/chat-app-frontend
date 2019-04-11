@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const actions = {
   joinServer({ commit }, server) {
+    console.log(server)
     server.namespace = Vue.$addServer(server.serverName);
     server.currentChannel = 'main'
     server.isActive = false
@@ -18,8 +19,19 @@ const actions = {
     commit('ADD_SERVER', server);
   },
 
-  createServer() {
-
+  async createServer({ dispatch, rootState }, serverName) {
+    try {
+      const { data } = await axios.post(
+        'http://localhost:3000/api/servers/new-server',
+        {
+          serverName: serverName,
+          owner: rootState.user.user.username
+        }
+      );
+      dispatch('joinServer', data)
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

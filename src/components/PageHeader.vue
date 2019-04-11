@@ -1,10 +1,10 @@
 <template>
   <nav>
-    <v-toolbar flat app dark class="primary" clipped-left>
-      <v-avatar size="54">
+    <v-toolbar flat app dark class="base" clipped-left>
+      <v-avatar size="54" @click="go">
         <img src="../assets/3.png">
       </v-avatar>
-      <v-toolbar-title @click="go">Chat-app</v-toolbar-title>
+      <v-toolbar-title>Chat-app</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn v-if="!$store.getters.user" block flat to="/login">login</v-btn>

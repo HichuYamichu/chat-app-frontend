@@ -17,7 +17,7 @@
             <v-card>
               <v-card-text>{{server.description}}</v-card-text>
               <v-card-actions>
-                <v-btn color="primary" @click="joinServer(server.serverName)">join</v-btn>
+                <v-btn color="base" @click="joinServer(server.serverName)">join</v-btn>
               </v-card-actions>
             </v-card>
           </v-expansion-panel-content>

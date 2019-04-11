@@ -7,7 +7,7 @@
     >
       <v-btn
         :input-value="activeChannel.channelName !== channel.channelName ? 'active' : ''"
-        color="accent"
+        color="primary"
         block
         flat
         outline
