@@ -6,7 +6,7 @@
           <v-spacer></v-spacer>
           <v-toolbar-title class="font-weight-medium display-1">{{ activeServer.serverName }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn small flat fab @click="edit">
+          <v-btn small flat fab @click="editor = true">
             <v-icon>edit</v-icon>
           </v-btn>
         </v-toolbar>
@@ -18,25 +18,33 @@
         <chat/>
       </v-flex>
     </v-layout>
+    <editor v-model="editor" :value="editor"/>
   </v-card>
 </template>
 
 <script>
 import Chat from "../components/Chat";
 import ChannelList from "../components/ChannelList";
+import Editor from "../components/Editor";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     Chat,
-    ChannelList
+    ChannelList,
+    Editor
+  },
+  data() {
+    return {
+      editor: false
+    };
   },
   computed: {
-    ...mapGetters(["activeServer", "servers"]),
+    ...mapGetters(["activeServer", "servers"])
   },
   methods: {
     edit: function() {
-      this.$router.push(`/edit/${activeServer.serverName}`);
+      this.$router.push(`/edit/${this.activeServer.serverName}`);
     }
   },
   beforeRouteUpdate(to, from, next) {
@@ -50,7 +58,7 @@ export default {
         server => server.serverName === to.params.serverName
       ).isActive = true;
     }
-    next()
+    next();
   },
   beforeRouteLeave(to, from, next) {
     this.servers.find(

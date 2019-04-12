@@ -2,8 +2,7 @@ import Vue from 'vue'
 import axios from 'axios';
 
 const actions = {
-  joinServer({ commit }, server) {
-    console.log(server)
+  loadServer({ commit }, server) {
     server.namespace = Vue.$addServer(server.serverName);
     server.currentChannel = 'main'
     server.isActive = false
@@ -19,16 +18,25 @@ const actions = {
     commit('ADD_SERVER', server);
   },
 
-  async createServer({ dispatch, rootState }, serverName) {
+  async joinServer({ dispatch }, serverName) {
+    const { data } = await axios.get(
+      `servers/join?serverName=${serverName}`
+    );
+    dispatch("loadServer", data);
+  },
+
+  async createServer({ dispatch, rootState }, serverData) {
     try {
       const { data } = await axios.post(
-        'http://localhost:3000/api/servers/new-server',
+        'servers/new-server',
         {
-          serverName: serverName,
+          serverName: serverData.serverName,
+          description: serverData.description,
+          private: serverData.private,
           owner: rootState.user.user.username
         }
       );
-      dispatch('joinServer', data)
+      dispatch('loadServer', data)
     } catch (error) {
       throw error;
     }

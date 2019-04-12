@@ -11,7 +11,7 @@
         <v-text-field outline type="password" v-model="password" label="password"></v-text-field>
       </v-flex>
       <v-flex xs12>
-        <v-btn class="primary" @click="register">register</v-btn>
+        <v-btn class="base" @click="register">register</v-btn>
       </v-flex>
     </v-layout>
     <error-dialog v-model="error" :message="errorMessage"/>

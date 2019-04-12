@@ -5,7 +5,7 @@ const actions = {
   async register({ commit }, credentials) {
     try {
       const user = await axios.post(
-        'http://localhost:3000/api/users/register',
+        'users/register',
         {
           username: credentials.username,
           password: credentials.password,
@@ -19,13 +19,13 @@ const actions = {
   },
   async login({ commit, dispatch }, credentials) {
     try {
-      const res = await axios.post('http://localhost:3000/api/users/login', {
+      const res = await axios.post('users/login', {
         username: credentials.username,
         password: credentials.password
       });
       commit('SET_USER', res.data.user);
       res.data.servers.forEach(server => {
-        dispatch('joinServer', server, { root: true });
+        dispatch('loadServer', server, { root: true });
       });
       router.push('/');
     } catch (error) {
@@ -35,7 +35,7 @@ const actions = {
   async logout({ commit, dispatch }) {
     commit('LOGOUT');
     dispatch('disconnectSockets', null, { root: true });
-    axios.get('http://localhost:3000/api/users/logout');
+    axios.get('users/logout');
   }
 };
 export default actions;

@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-toolbar flat app dark class="base" clipped-left>
+    <v-toolbar flat app dark class="base ml-0" clipped-left>
       <v-avatar size="54" @click="go">
         <img src="../assets/3.png">
       </v-avatar>
@@ -13,7 +13,7 @@
         <v-btn v-if="$store.getters.user" block flat @click="logout">Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-navigation-drawer app v-model="drawer" mini-variant permanent clipped class="secondary">
+    <v-navigation-drawer app v-model="drawer" mini-variant permanent clipped class="secondary" v-if="user">
       <server-list/>
     </v-navigation-drawer>
   </nav>
@@ -21,6 +21,7 @@
 
 <script>
 import ServerList from "./ServerList";
+import { mapGetters } from 'vuex'
 export default {
   components: {
     ServerList
@@ -29,6 +30,9 @@ export default {
     return {
       drawer: true
     };
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   methods: {
     logout: function() {

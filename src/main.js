@@ -12,6 +12,7 @@ import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'http://localhost:3000/api/'
 import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Vuetify, {
