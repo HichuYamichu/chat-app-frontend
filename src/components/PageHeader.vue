@@ -13,15 +13,23 @@
         <v-btn v-if="$store.getters.user" block flat @click="logout">Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-navigation-drawer app v-model="drawer" mini-variant permanent clipped class="secondary" v-if="user">
-      <server-list/>
+    <v-navigation-drawer
+      app
+      v-model="drawer"
+      mini-variant
+      permanent
+      clipped
+      class="secondary"
+      v-if="user"
+    >
+      <server-list class="serverList"/>
     </v-navigation-drawer>
   </nav>
 </template>
 
 <script>
 import ServerList from "./ServerList";
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   components: {
     ServerList
@@ -32,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(["user"])
   },
   methods: {
     logout: function() {
@@ -47,4 +55,16 @@ export default {
 </script>
 
 <style scoped>
+.serverList {
+  max-height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.serverList::-webkit-scrollbar {
+  /* WebKit */
+  width: 0;
+  height: 0;
+}
 </style>

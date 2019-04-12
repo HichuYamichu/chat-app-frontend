@@ -81,6 +81,7 @@ export default {
 
 .chat {
   border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
 }
 
 .typer {

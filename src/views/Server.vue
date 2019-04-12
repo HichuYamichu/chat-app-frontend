@@ -14,8 +14,11 @@
       <v-flex xs3 sm2 md2 lg1>
         <channel-list/>
       </v-flex>
-      <v-flex xs7 sm9 md10 lg11>
+      <v-flex xs7 sm8 md9 lg10>
         <chat/>
+      </v-flex>
+      <v-flex xs2 sm2 md1 lg1>
+        <user-list/>
       </v-flex>
     </v-layout>
     <editor v-model="editor" :value="editor"/>
@@ -25,6 +28,7 @@
 <script>
 import Chat from "../components/Chat";
 import ChannelList from "../components/ChannelList";
+import UserList from "../components/UserList";
 import Editor from "../components/Editor";
 import { mapGetters } from "vuex";
 
@@ -32,7 +36,8 @@ export default {
   components: {
     Chat,
     ChannelList,
-    Editor
+    Editor,
+    UserList
   },
   data() {
     return {
@@ -69,5 +74,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.test {
+  border: 2px solid black;
+}
 </style>

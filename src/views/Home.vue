@@ -1,5 +1,5 @@
 <template>
-  <v-card class="main">
+  <v-card height="88vh">
     <v-layout wrap>
       <v-flex xs12 class="mb-2">
         <v-toolbar card flat color="secondary mt-1">
@@ -9,23 +9,23 @@
         </v-toolbar>
       </v-flex>
       <v-flex xs12>
-        <v-expansion-panel popout>
-          <v-expansion-panel-content v-for="(serverData, index) in serversInfo" :key="index">
-            <template v-slot:header>
-              <h3 class="headline">{{serverData.serverName}}</h3>
-            </template>
-            <v-card>
-              <v-card-text class="subheading">{{serverData.description}}</v-card-text>
-              <v-card-actions>
-                <v-btn
-                  color="base"
-                  @click="joinServer(serverData.serverName)"
-                  :disabled="canJoin(serverData.serverName)"
-                >join</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+          <v-expansion-panel popout>
+            <v-expansion-panel-content v-for="(serverData, index) in serversInfo" :key="index">
+              <template v-slot:header>
+                <h3 class="headline">{{serverData.serverName}}</h3>
+              </template>
+              <v-card>
+                <v-card-text class="subheading">{{serverData.description}}</v-card-text>
+                <v-card-actions>
+                  <v-btn
+                    color="base"
+                    @click="joinServer(serverData.serverName)"
+                    :disabled="canJoin(serverData.serverName)"
+                  >join</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
       </v-flex>
     </v-layout>
   </v-card>
@@ -46,6 +46,7 @@ export default {
   async created() {
     const { data } = await this.axios.get("servers/public");
     this.serversInfo = data;
+    console.log(data)
   },
   methods: {
     canJoin: function(serverName) {
@@ -63,7 +64,8 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  height: 88vh;
+.publicServers {
+  height: 200px !important;
+  max-height: 200px !important;
 }
 </style>

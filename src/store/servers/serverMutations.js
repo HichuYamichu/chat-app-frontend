@@ -10,6 +10,9 @@ const mutations = {
       .find(server => server.serverName === message.serverName)
       .channels.find(channel => channel.channelName === message.channelName)
       .messages.push(message.data);
+  },
+  UPDATE_ACTIVE_USERS(state, payload) {
+    state.servers.find(server => server.serverName === payload.serverName).activeUsers = payload.userList
   }
 };
 
