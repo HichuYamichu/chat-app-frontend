@@ -41,6 +41,7 @@ export default {
     async create() {
       try {
         await this.$store.dispatch("createServer", { serverName: this.serverName, description: this.description, private: this.isPrivate});
+        this.$router.push(`/servers/${this.serverName}`)
       } catch (error) {
         console.log(error);
         this.error = true;

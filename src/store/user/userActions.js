@@ -32,7 +32,7 @@ const actions = {
       throw error;
     }
   },
-  async logout({ commit, dispatch }) {
+  logout({ commit, dispatch }) {
     commit('LOGOUT');
     dispatch('disconnectSockets', null, { root: true });
     axios.get('users/logout');

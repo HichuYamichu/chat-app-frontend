@@ -1,65 +1,65 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import _Server from './views/Server'
-import Register from './views/Register'
-import Login from './views/Login'
-import NewServerForm from './views/NewServerForm'
-import Home from './views/Home'
-import store from './store/index'
+import Vue from 'vue';
+import Router from 'vue-router';
+import _Server from './views/Server';
+import Register from './views/Register';
+import Login from './views/Login';
+import NewServerForm from './views/NewServerForm';
+import Home from './views/Home';
+import store from './store/index';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-	mode: 'history',
-	routes: [
+  mode: 'history',
+  routes: [
     {
-			path: '/',
-			name: 'Chat-app',
-			component: Home,
-			beforeEnter: (to, from, next) => {
-				if (!store.getters.user) {
-					next('/login')
-				} else {
-					next()
-				}
-			}
-		},
-		{
-			path: '/login',
-			name: 'Login',
-			component: Login
-		},
-		{
-			path: '/register',
-			name: 'Register',
-			component: Register
-		},
-		{
-			path: '/servers/:serverName',
-			name: 'Server',
-			component: _Server,
-			beforeEnter: (to, from, next) => {
-				if (!store.getters.user) {
-					next('/login')
-				} else {
+      path: '/',
+      name: 'Chat-app',
+      component: Home,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.user) {
+          next();
+        } else {
+          next('/login');
+        }
+      }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/servers/:serverName',
+      name: 'Server',
+      component: _Server,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.user) {
           if (to.params.serverName) {
-            store.getters.servers.find(server => server.serverName === to.params.serverName).isActive = true
+            store.getters.servers.find(server => server.serverName === to.params.serverName).isActive = true;
           }
-					next()
-				}
-			}
-		},
+          next();
+        } else {
+          next('/login');
+        }
+      }
+    },
     {
-			path: '/new',
-			name: 'NewServerForm',
-			component: NewServerForm,
-			beforeEnter: (to, from, next) => {
-				if (!store.getters.user) {
-					next('/login')
-				} else {
-					next()
-				}
-			}
-		},
-	]
-})
+      path: '/new',
+      name: 'NewServerForm',
+      component: NewServerForm,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.user) {
+          next();
+        } else {
+          next('/login');
+        }
+      }
+    }
+  ]
+});

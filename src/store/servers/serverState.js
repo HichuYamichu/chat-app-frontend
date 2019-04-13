@@ -1,5 +1,5 @@
 const state = {
   servers: []
-}
+};
 
-export default state
+export default state;

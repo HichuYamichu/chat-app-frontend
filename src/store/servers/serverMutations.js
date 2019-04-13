@@ -12,7 +12,7 @@ const mutations = {
       .messages.push(message.data);
   },
   UPDATE_ACTIVE_USERS(state, payload) {
-    state.servers.find(server => server.serverName === payload.serverName).activeUsers = payload.userList
+    state.servers.find(server => server.serverName === payload.serverName).activeUsers = payload.userList;
   }
 };
 

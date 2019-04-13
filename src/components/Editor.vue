@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
             <v-toolbar-title
               class="font-weight-medium display-1"
-            >Server settings</v-toolbar-title>
+            >{{ activeServer.serverName }} settings</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn small flat fab class="error" @click="show = false">
               <v-icon>close</v-icon>
@@ -30,9 +30,7 @@
               </v-card>
             </v-tab-item>
             <v-tab-item>
-              <v-card flat>
-                <v-card-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iste eveniet repudiandae voluptatibus molestiae soluta architecto! Dolores quisquam minima nihil repudiandae inventore, excepturi sed aliquid veritatis rerum beatae ipsum esse?</v-card-text>
-              </v-card>
+              <other-settings/>
             </v-tab-item>
           </v-tabs>
         </v-flex>
@@ -42,13 +40,18 @@
 </template>
 
 <script>
+import OtherSettings from "./OtherSettings";
 import { mapGetters } from "vuex";
+
 export default {
+  components: {
+    OtherSettings
+  },
   props: ["value"],
   data() {
     return {
-      active: null,
-    }
+      active: null
+    };
   },
   computed: {
     ...mapGetters(["activeServer"]),
