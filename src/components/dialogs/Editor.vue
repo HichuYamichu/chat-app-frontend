@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import OtherSettings from "./OtherSettings";
+import OtherSettings from "../editorParts/OtherSettings";
 import { mapGetters } from "vuex";
 
 export default {

@@ -46,7 +46,6 @@ export default {
   async created() {
     const { data } = await this.axios.get('servers/public');
     this.serversInfo = data;
-    console.log(data);
   },
   methods: {
     canJoin: function(serverName) {

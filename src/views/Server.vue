@@ -1,13 +1,16 @@
 <template>
-  <v-card class="pb-1">
+  <v-card class="pb-1" flat elevation-0>
     <v-layout row wrap justify-space-between>
       <v-flex xs12 class="mb-2">
         <v-toolbar card flat color="tertiary">
           <v-spacer></v-spacer>
           <v-toolbar-title class="font-weight-medium display-1">{{ activeServer.serverName }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn small flat fab @click="editor = true">
+          <v-btn small flat fab @click="editor = true" v-if="canEdit">
             <v-icon>edit</v-icon>
+          </v-btn>
+          <v-btn light flat fab color="error" @click="leave = true" v-else>
+            <v-icon>close</v-icon>
           </v-btn>
         </v-toolbar>
       </v-flex>
@@ -22,34 +25,36 @@
       </v-flex>
     </v-layout>
     <editor v-model="editor" :value="editor"/>
+    <leave-message v-model="leave" :value="leave"/>
   </v-card>
 </template>
 
 <script>
-import Chat from "../components/Chat";
-import ChannelList from "../components/ChannelList";
-import UserList from "../components/UserList";
-import Editor from "../components/Editor";
-import { mapGetters } from "vuex";
+import Chat from '../components/Chat';
+import ChannelList from '../components/ChannelList';
+import UserList from '../components/UserList';
+import Editor from '../components/dialogs/Editor';
+import LeaveMessage from '../components/dialogs/LeaveMessage';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     Chat,
     ChannelList,
     Editor,
-    UserList
+    UserList,
+    LeaveMessage
   },
   data() {
     return {
-      editor: false
+      editor: false,
+      leave: false
     };
   },
   computed: {
-    ...mapGetters(["activeServer", "servers"])
-  },
-  methods: {
-    edit: function() {
-      this.$router.push(`/edit/${this.activeServer.serverName}`);
+    ...mapGetters(['activeServer', 'servers', 'user']),
+    canEdit: function() {
+      return this.activeServer.owner === this.user.username;
     }
   },
   beforeRouteUpdate(to, from, next) {
@@ -75,7 +80,4 @@ export default {
 </script>
 
 <style scoped>
-.test {
-  border: 2px solid black;
-}
 </style>

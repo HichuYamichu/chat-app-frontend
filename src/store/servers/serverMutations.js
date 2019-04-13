@@ -13,6 +13,9 @@ const mutations = {
   },
   UPDATE_ACTIVE_USERS(state, payload) {
     state.servers.find(server => server.serverName === payload.serverName).activeUsers = payload.userList;
+  },
+  LEAVE_SERVER(state, serverName) {
+    state.servers = state.servers.filter(server => server.serverName !== serverName);
   }
 };
 

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ErrorDialog from "../components/ErrorDialog";
+import ErrorDialog from "../components/dialogs/ErrorDialog";
 
 export default {
   components: {
