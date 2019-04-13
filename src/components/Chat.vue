@@ -19,7 +19,6 @@
 
 <script>
 import MessageBlock from "../components/Message";
-import _ from "lodash.throttle";
 import { mapGetters } from 'vuex'
 
 export default {
@@ -56,6 +55,8 @@ export default {
         channel: this.activeChannel.channelName,
         lastMesssageTimestamp: this.activeChannel.messages[0].timestamp
       })
+      const chatBox = this.$el.querySelector("#style-1");
+      chatBox.scrollTop = 175;
     }
   }
 };
@@ -65,23 +66,24 @@ export default {
 #style-1::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  background-color: #f5f5f5;
+  background-color: #585858;
 }
 
 #style-1::-webkit-scrollbar {
   width: 7px;
-  background-color: #f5f5f5;
+  background-color: #707070;
 }
 
 #style-1::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(78, 78, 78, 0.3);
-  background-color: #555;
+  border-radius: 12px;
+  -webkit-box-shadow: inset 0 0 6px rgb(0, 197, 187);
+  background-color: rgba(152, 252, 255, 0.911);
 }
 
 .chat {
-  border-left: 1px solid lightgray;
-  border-right: 1px solid lightgray;
+  padding-right: 0px;
+  border-left: 2px solid gray;
+  border-right: 2px solid gray;
 }
 
 .typer {

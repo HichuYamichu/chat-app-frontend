@@ -1,5 +1,5 @@
 import axios from 'axios';
-import router from '../../router';
+import router from '@/router';
 
 const actions = {
   async register({ commit }, credentials) {
@@ -14,7 +14,7 @@ const actions = {
       );
       commit('SET_USER', user.data);
     } catch (error) {
-      throw error;
+      commit('DISPLAY_ERROR', error, { root: true });
     }
   },
   async login({ commit, dispatch }, credentials) {
@@ -29,12 +29,13 @@ const actions = {
       });
       router.push('/');
     } catch (error) {
-      throw error;
+      commit('DISPLAY_ERROR', error, { root: true });
     }
   },
   logout({ commit, dispatch }) {
+    router.push('/login');
     commit('LOGOUT');
-    dispatch('disconnectSockets', null, { root: true });
+    dispatch('handleLoguot', null, { root: true });
     axios.get('users/logout');
   }
 };

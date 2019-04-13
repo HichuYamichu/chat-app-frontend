@@ -17,36 +17,25 @@
         </v-flex>
       </v-layout>
     </v-form>
-    <error-dialog v-model="error" :message="errorMessage"/>
   </v-card>
 </template>
 
 <script>
-import ErrorDialog from "../components/dialogs/ErrorDialog";
-
 export default {
-  components: {
-    ErrorDialog
-  },
   data() {
     return {
-      serverName: "",
+      serverName: '',
       description: '',
-      isPrivate: false,
-      error: "",
-      errorMessage: ""
+      isPrivate: false
     };
   },
   methods: {
     async create() {
-      try {
-        await this.$store.dispatch("createServer", { serverName: this.serverName, description: this.description, private: this.isPrivate});
-        this.$router.push(`/servers/${this.serverName}`)
-      } catch (error) {
-        console.log(error);
-        this.error = true;
-        this.errorMessage = error.response.data.error;
-      }
+      await this.$store.dispatch('createServer', {
+        serverName: this.serverName,
+        description: this.description,
+        private: this.isPrivate
+      });
     }
   }
 };

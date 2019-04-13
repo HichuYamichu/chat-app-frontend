@@ -3,13 +3,13 @@
     <v-card>
       <v-layout row wrap>
         <v-flex xs12>
-          <v-toolbar card flat color="primary" light>
+          <v-toolbar card flat color="base">
             <v-spacer></v-spacer>
             <v-toolbar-title
               class="font-weight-medium display-1"
             >{{ activeServer.serverName }} settings</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn small flat fab class="error" @click="show = false">
+            <v-btn absolute right small flat fab class="error" @click="show = false">
               <v-icon>close</v-icon>
             </v-btn>
           </v-toolbar>
@@ -20,9 +20,7 @@
             <v-tab ripple>Roles</v-tab>
             <v-tab ripple>Other</v-tab>
             <v-tab-item>
-              <v-card flat>
-                <v-card-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iste eveniet repudiandae voluptatibus molestiae soluta architecto! Dolores quisquam minima nihil repudiandae inventore, excepturi sed aliquid veritatis rerum beatae ipsum esse?</v-card-text>
-              </v-card>
+              <channel-settings/>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
@@ -41,11 +39,13 @@
 
 <script>
 import OtherSettings from "../editorParts/OtherSettings";
+import ChannelSettings from "../editorParts/ChannelSettings";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
-    OtherSettings
+    OtherSettings,
+    ChannelSettings
   },
   props: ["value"],
   data() {

@@ -10,15 +10,18 @@
       </v-layout>
       </v-container>
     </v-content>
+    <error-dialog/>
   </v-app>
 </template>
 
 <script>
 import PageHeader from "./components/PageHeader";
+import ErrorDialog from "./components/dialogs/ErrorDialog";
 
 export default {
   components: {
-    PageHeader
+    PageHeader,
+    ErrorDialog
   }
 };
 </script>

@@ -14,17 +14,11 @@
         <v-btn class="base" @click="login">Login</v-btn>
       </v-flex>
     </v-layout>
-    <error-dialog v-model="error" :message="errorMessage"/>
   </v-card>
 </template>
 
 <script>
-import ErrorDialog from "../components/dialogs/ErrorDialog";
-
 export default {
-  components: {
-    ErrorDialog
-  },
   data() {
     return {
       username: "",

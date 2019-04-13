@@ -1,13 +1,13 @@
 <template>
   <div class="text-xs-center">
-    <v-dialog v-model="show" width="500">
+    <v-dialog v-model="error.show" width="500">
       <v-card>
         <v-card-title class="headline error lighten-2" primary-title>Error</v-card-title>
-        <v-card-text class="title" >{{ message }}</v-card-text>
+        <v-card-text class="title" >{{ error.message }}</v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" flat @click="show = false">I'm sorry</v-btn>
+          <v-btn color="error" flat @click="dismiss">I'm sorry</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -15,16 +15,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  props: ["value", "message"],
   computed: {
-    show: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit("input", value);
-      }
+    ...mapGetters(['error'])
+  },
+  methods: {
+    dismiss: function() {
+      this.$store.commit('DISMISS')
     }
   }
 };
