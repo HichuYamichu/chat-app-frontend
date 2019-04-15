@@ -38,17 +38,15 @@ const mutations = {
       .channels.push(payload.channel);
   },
   REMOVE_CHANNEL(state, payload) {
-    state.servers.find(
+    const serverToAlter = state.servers.find(
       server => server.serverName === payload.serverName
-    ).channels = state.servers
-      .find(server => server.serverName === payload.serverName)
-      .channels.filter(channel => channel.channelName !== payload.channelName);
-  },
-  DISPLAY_ERROR(state, errorMessage) {
-    state.error = { show: true, message: errorMessage };
-  },
-  DISMISS(state) {
-    state.error.show = false;
+    );
+    if (serverToAlter.currentChannel === payload.channelName) {
+      serverToAlter.currentChannel = 'main';
+    }
+    serverToAlter.channels = serverToAlter.channels.filter(
+      channel => channel.channelName !== payload.channelName
+    );
   }
 };
 

@@ -3,7 +3,7 @@
     <v-card>
       <v-layout row wrap>
         <v-flex xs12>
-          <v-toolbar card flat color="base">
+          <v-toolbar card flat color="base" class="pb-2">
             <v-spacer></v-spacer>
             <v-toolbar-title
               class="font-weight-medium display-1"

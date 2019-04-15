@@ -1,9 +1,5 @@
 const state = {
-  servers: [],
-  error: {
-    show: false,
-    messsage: ''
-  }
+  servers: []
 };
 
 export default state;

@@ -1,11 +1,9 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs2 offset-xs5>
-      <v-btn class="error" block large @click="deleteServer">
+  <div>
+    <v-btn class="error mt-4" large @click="deleteServer">
         Delete server
       </v-btn>
-    </v-flex>
-  </v-layout>
+  </div>
 </template>
 
 <script>

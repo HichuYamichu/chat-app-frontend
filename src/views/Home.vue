@@ -9,6 +9,13 @@
         </v-toolbar>
       </v-flex>
       <v-flex xs12>
+        <v-btn flat fab large>
+          <v-icon>
+            cached
+          </v-icon>
+        </v-btn>
+      </v-flex>
+      <v-flex xs12>
         <v-expansion-panel popout>
           <v-expansion-panel-content v-for="(serverData, index) in serversInfo" :key="index">
             <template v-slot:header>
