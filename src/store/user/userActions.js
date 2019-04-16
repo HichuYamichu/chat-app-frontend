@@ -2,7 +2,7 @@ import axios from 'axios';
 import router from '@/router';
 
 const actions = {
-  async register({ commit }, credentials) {
+  async register({ commit, dispatch }, credentials) {
     try {
       const user = await axios.post(
         'users/register',
@@ -13,6 +13,7 @@ const actions = {
         }
       );
       commit('SET_USER', user.data);
+      dispatch('connectToPublic', null, { root: true });
     } catch (error) {
       commit('DISPLAY_ERROR', error, { root: true });
     }
@@ -24,6 +25,7 @@ const actions = {
         password: credentials.password
       });
       commit('SET_USER', res.data.user);
+      dispatch('connectToPublic', null, { root: true });
       res.data.servers.forEach(server => {
         dispatch('loadServer', server, { root: true });
       });

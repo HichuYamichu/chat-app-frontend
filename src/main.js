@@ -2,7 +2,6 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store/index';
-import socket from './plugins/socket';
 import './registerServiceWorker';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -27,7 +26,6 @@ Vue.use(Vuetify, {
 
   }
 });
-Vue.use(socket);
 Vue.use(VueAxios, axios);
 Vue.use(vuescroll);
 

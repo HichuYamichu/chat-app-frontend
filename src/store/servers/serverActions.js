@@ -1,10 +1,9 @@
-import Vue from 'vue';
-import axios from 'axios';
 import router from '@/router';
+import io from 'socket.io-client';
 
 const actions = {
   loadServer({ commit }, server) {
-    server.namespace = Vue.$addServer(server.serverName);
+    server.namespace = io(`localhost:3000/${server.serverName}`);
     server.currentChannel = 'main';
     server.isActive = false;
     server.activeUsers = [];
@@ -27,6 +26,7 @@ const actions = {
     });
 
     server.namespace.on('updateActiveUsers', data => {
+      console.log(data);
       commit('UPDATE_ACTIVE_USERS', {
         userList: data,
         serverName: server.serverName
@@ -54,26 +54,6 @@ const actions = {
     commit('ADD_SERVER', server);
   },
 
-  async joinServer({ dispatch }, serverName) {
-    const { data } = await axios.get(`servers/join?serverName=${serverName}`);
-    dispatch('loadServer', data);
-  },
-
-  async createServer({ commit, dispatch, rootState }, serverData) {
-    try {
-      const { data } = await axios.post('servers/new-server', {
-        'serverName': serverData.serverName,
-        'description': serverData.description,
-        'private': serverData.private,
-        'owner': rootState.user.user.username
-      });
-      dispatch('loadServer', data);
-      router.push(`/servers/${serverData.serverName}`);
-    } catch (error) {
-      commit('DISPLAY_ERROR', error);
-    }
-  },
-
   leaveServer({ commit, getters }, serverName) {
     router.push('/');
     getters.servers
@@ -89,13 +69,14 @@ const actions = {
       .namespace.emit('deleteServer');
   },
 
-  handleLoguot({ commit, getters }) {
+  handleLoguot({ commit, getters, dispatch }) {
     getters.servers.forEach(server => {
       server.namespace.emit('logout');
     });
     getters.servers.forEach(server => {
       server.namespace.removeAllListeners();
     });
+    dispatch('disconnectMain', null, { root: true });
     commit('CLEAR_STATE');
   }
 };
