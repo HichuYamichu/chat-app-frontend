@@ -14,6 +14,7 @@ const actions = {
       );
       commit('SET_USER', user.data);
       dispatch('connectToPublic', null, { root: true });
+      router.push('/');
     } catch (error) {
       commit('DISPLAY_ERROR', error, { root: true });
     }

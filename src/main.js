@@ -23,7 +23,6 @@ Vue.use(Vuetify, {
     tertiary: colors.grey.darken2,
     accent: colors.green.accent2,
     accent2: colors.green.accent2
-
   }
 });
 Vue.use(VueAxios, axios);
@@ -34,5 +33,9 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  mounted() {
+    // Prevent blank screen in Electron builds
+    this.$router.push('/login');
+  },
   render: h => h(App)
 }).$mount('#app');

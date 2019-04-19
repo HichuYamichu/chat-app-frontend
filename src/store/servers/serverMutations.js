@@ -47,6 +47,14 @@ const mutations = {
     serverToAlter.channels = serverToAlter.channels.filter(
       channel => channel.channelName !== payload.channelName
     );
+  },
+  CHANGE_ROLE_ORDER(state, payload) {
+    state.servers.find(server => server.serverName === payload.serverName).roles.length = 1;
+    payload.newOrder.forEach((role, index) => role.roleLevel = payload.newOrder.length - index);
+    state.servers.find(server => server.serverName === payload.serverName).roles.push(...payload.newOrder);
+  },
+  ADD_NEW_ROLE(state, payload) {
+    state.servers.find(server => server.serverName === payload.serverName).roles.push(payload.newRole);
   }
 };
 

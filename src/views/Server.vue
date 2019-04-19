@@ -14,13 +14,13 @@
           </v-btn>
         </v-toolbar>
       </v-flex>
-      <v-flex xs3 sm2 md2 lg1>
+      <v-flex xs4 sm3 md2 lg1>
         <channel-list/>
       </v-flex>
-      <v-flex xs7 sm8 md9 lg10>
+      <v-flex xs4 sm6 md8 lg10>
         <chat/>
       </v-flex>
-      <v-flex xs2 sm2 md1 lg1>
+      <v-flex xs4 sm3 md2 lg1>
         <user-list/>
       </v-flex>
     </v-layout>

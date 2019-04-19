@@ -23,9 +23,7 @@
               <channel-settings/>
             </v-tab-item>
             <v-tab-item>
-              <v-card flat>
-                <v-card-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iste eveniet repudiandae voluptatibus molestiae soluta architecto! Dolores quisquam minima nihil repudiandae inventore, excepturi sed aliquid veritatis rerum beatae ipsum esse?</v-card-text>
-              </v-card>
+              <role-settings/>
             </v-tab-item>
             <v-tab-item>
               <other-settings/>
@@ -40,12 +38,14 @@
 <script>
 import OtherSettings from "../editorParts/OtherSettings";
 import ChannelSettings from "../editorParts/ChannelSettings";
+import RoleSettings from "../editorParts/RoleSettings";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     OtherSettings,
-    ChannelSettings
+    ChannelSettings,
+    RoleSettings
   },
   props: ["value"],
   data() {

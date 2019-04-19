@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 
 const actions = {
   loadServer({ commit }, server) {
-    server.namespace = io(`localhost:3000/${server.serverName}`);
+    server.namespace = io(`http://localhost:3000/${server.serverName}`);
     server.currentChannel = 'main';
     server.isActive = false;
     server.activeUsers = [];
