@@ -1,6 +1,6 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs2 offset-xs1 my-3>
+  <v-layout row wrap class="mt-5">
+    <v-flex xs2 offset-xs4 my-2 mr-2>
       <v-text-field
         label="new role"
         outline
@@ -15,22 +15,35 @@
           flat
           large
           outline
+          :input-value="role.roleName === activeRole.roleName"
           @click="changeActiveRole(index + 1)"
           v-for="(role, index) in roles"
           :key="index"
         >{{role.roleName}}</v-btn>
       </draggable>
       <v-btn
-          class
-          block
-          flat
-          large
-          outline
-          @click="changeActiveRole(0)"
-        >{{activeServer.roles[0].roleName}}</v-btn>
+        class
+        block
+        flat
+        large
+        outline
+        :input-value="activeRole.roleName === activeServer.roles[0].roleName"
+        @click="changeActiveRole(0)"
+      >{{activeServer.roles[0].roleName}}</v-btn>
     </v-flex>
-    <v-flex xs5 offset-xs1>
-      {{ activeRole }}
+    <v-flex xs2>
+      <v-chip
+        class="test pa-3"
+        text-color="white"
+        v-for="permission in permissionList"
+        :key="permission.permName"
+      >
+        <h3 class="title">{{ permission.permName }}</h3>
+        <v-switch class="switch" v-model="activeRole.permissions[permission.permValue]"></v-switch>
+      </v-chip>
+    </v-flex>
+    <v-flex xs12 mt-4>
+      <v-btn class="success" large @click="save">save</v-btn>
     </v-flex>
   </v-layout>
 </template>
@@ -46,7 +59,14 @@ export default {
   data() {
     return {
       roleName: '',
-      activeRoleIndex: 0
+      activeRoleIndex: 0,
+      permissionList: [
+        { permName: 'administrator', permValue: 'admin' },
+        { permName: 'send messages', permValue: 'sendMessages' },
+        { permName: 'delete messages', permValue: 'deleteMessages' },
+        { permName: 'kick members', permValue: 'kickMembers' },
+        { permName: 'ban members', permValue: 'banMembers' },
+      ]
     };
   },
   computed: {
@@ -66,10 +86,10 @@ export default {
     },
     activeRole: {
       get() {
-        return this.activeServer.roles[this.activeRoleIndex]
+        return this.activeServer.roles[this.activeRoleIndex];
       },
       set(index) {
-        this.activeRoleIndex = index
+        this.activeRoleIndex = index;
       }
     }
   },
@@ -82,10 +102,16 @@ export default {
         roleMembers: [],
         roleName: this.roleName
       };
-      this.$store.commit('ADD_NEW_ROLE', { newRole, serverName: this.activeServer.serverName })
+      this.$store.commit('ADD_NEW_ROLE', {
+        newRole,
+        serverName: this.activeServer.serverName
+      });
     },
     changeActiveRole: function(index) {
-      this.activeRoleIndex = index
+      this.activeRoleIndex = index;
+    },
+    save: function() {
+      this.$store.dispatch('saveRoles')
     }
   }
 };
@@ -95,5 +121,21 @@ export default {
 .channelSelect {
   width: 30%;
   margin: auto;
+}
+
+.switch {
+  /* margin: 20px 0px 0px 35% */
+  position: absolute;
+  right: 10px;
+  margin: 10px 0 0 0;
+}
+
+.test {
+  position: relative;
+  width: 300px;
+}
+
+.test * {
+  display: inline-block;
 }
 </style>

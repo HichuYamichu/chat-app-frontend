@@ -6,7 +6,6 @@ const actions = {
     server.namespace = io(`http://localhost:3000/${server.serverName}`);
     server.currentChannel = 'main';
     server.isActive = false;
-    server.activeUsers = [];
     server.namespace.emit(
       'init',
       server.channels.map(channel => channel.channelName)
@@ -26,7 +25,6 @@ const actions = {
     });
 
     server.namespace.on('updateActiveUsers', data => {
-      console.log(data);
       commit('UPDATE_ACTIVE_USERS', {
         userList: data,
         serverName: server.serverName
@@ -49,6 +47,10 @@ const actions = {
 
     server.namespace.on('errorOccured', error => {
       commit('DISPLAY_ERROR', error);
+    });
+
+    server.namespace.on('updateRoles', roles => {
+      commit('UPDATE_ROLES', { serverName: server.serverName, roles });
     });
 
     commit('ADD_SERVER', server);
@@ -78,6 +80,14 @@ const actions = {
     });
     dispatch('disconnectMain', null, { root: true });
     commit('CLEAR_STATE');
+  },
+
+  saveRoles({ getters }) {
+    getters.activeServer.namespace.emit('updateRoles', getters.activeServer.roles);
+  },
+
+  assignRole({ getters }, data) {
+    getters.activeServer.namespace.emit('assignRole', data);
   }
 };
 

@@ -22,7 +22,9 @@ const mutations = {
   UPDATE_ACTIVE_USERS(state, payload) {
     state.servers.find(
       server => server.serverName === payload.serverName
-    ).activeUsers = payload.userList;
+    ).users.forEach(user => {
+      if (payload.userList.map(activeUser => activeUser.username).includes(user.username)) user.active = true;
+    });
   },
   LEAVE_SERVER(state, serverName) {
     state.servers = state.servers.filter(
@@ -55,6 +57,10 @@ const mutations = {
   },
   ADD_NEW_ROLE(state, payload) {
     state.servers.find(server => server.serverName === payload.serverName).roles.push(payload.newRole);
+  },
+  UPDATE_ROLES(state, payload) {
+    state.servers.find(server => server.serverName === payload.serverName).roles.length = 0;
+    state.servers.find(server => server.serverName === payload.serverName).roles.push(...payload.roles)
   }
 };
 

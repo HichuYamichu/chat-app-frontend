@@ -2,7 +2,7 @@
   <nav>
     <v-toolbar flat app dark class="base ml-0" clipped-left>
       <v-avatar size="54" @click="go">
-        <img src="../assets/3.png">
+        <img src="../assets/fav.png">
       </v-avatar>
       <v-toolbar-title>Chat-app</v-toolbar-title>
       <v-spacer></v-spacer>
