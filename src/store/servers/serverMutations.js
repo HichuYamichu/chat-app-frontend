@@ -20,11 +20,24 @@ const mutations = {
       .messages.unshift(...payload.messages);
   },
   UPDATE_ACTIVE_USERS(state, payload) {
-    state.servers.find(
-      server => server.serverName === payload.serverName
-    ).users.forEach(user => {
-      if (payload.userList.map(activeUser => activeUser.username).includes(user.username)) user.active = true;
-    });
+    state.servers.find(server => server.serverName === payload.serverName).users.length = 0;
+    state.servers.find(server => server.serverName === payload.serverName).users.push(...payload.userList);
+  },
+  ASSIGN_ROLE_TO_USER(state, payload) {
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .roles.find(role => role.roleName === payload.role)
+      .roleMembers.push(payload.user);
+  },
+  REMOVE_ROLE_FROM_USER(state, payload) {
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .roles.find(
+        role => role.roleName === payload.role
+      ).roleMembers = state.servers
+        .find(server => server.serverName === payload.serverName)
+        .roles.find(role => role.roleName === payload.role)
+        .roleMembers.filter(member => member !== payload.user);
   },
   LEAVE_SERVER(state, serverName) {
     state.servers = state.servers.filter(
@@ -52,15 +65,20 @@ const mutations = {
   },
   CHANGE_ROLE_ORDER(state, payload) {
     state.servers.find(server => server.serverName === payload.serverName).roles.length = 1;
-    payload.newOrder.forEach((role, index) => role.roleLevel = payload.newOrder.length - index);
     state.servers.find(server => server.serverName === payload.serverName).roles.push(...payload.newOrder);
   },
   ADD_NEW_ROLE(state, payload) {
-    state.servers.find(server => server.serverName === payload.serverName).roles.push(payload.newRole);
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .roles.push(payload.newRole);
   },
   UPDATE_ROLES(state, payload) {
-    state.servers.find(server => server.serverName === payload.serverName).roles.length = 0;
-    state.servers.find(server => server.serverName === payload.serverName).roles.push(...payload.roles)
+    state.servers.find(
+      server => server.serverName === payload.serverName
+    ).roles.length = 0;
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .roles.push(...payload.roles);
   }
 };
 

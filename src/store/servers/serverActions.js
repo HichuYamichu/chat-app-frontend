@@ -42,7 +42,10 @@ const actions = {
     });
 
     server.namespace.on('channelDeleted', data => {
-      commit('REMOVE_CHANNEL', { serverName: server.serverName, channelName: data });
+      commit('REMOVE_CHANNEL', {
+        serverName: server.serverName,
+        channelName: data
+      });
     });
 
     server.namespace.on('errorOccured', error => {
@@ -51,6 +54,22 @@ const actions = {
 
     server.namespace.on('updateRoles', roles => {
       commit('UPDATE_ROLES', { serverName: server.serverName, roles });
+    });
+
+    server.namespace.on('updateUserRole', data => {
+      if (data.actionType === 'assign') {
+        commit('ASSIGN_ROLE_TO_USER', {
+          serverName: server.serverName,
+          user: data.user,
+          role: data.role
+        });
+      } else if (data.actionType === 'remove') {
+        commit('REMOVE_ROLE_FROM_USER', {
+          serverName: server.serverName,
+          user: data.user,
+          role: data.role
+        });
+      }
     });
 
     commit('ADD_SERVER', server);
@@ -83,11 +102,14 @@ const actions = {
   },
 
   saveRoles({ getters }) {
-    getters.activeServer.namespace.emit('updateRoles', getters.activeServer.roles);
+    getters.activeServer.namespace.emit(
+      'updateRoles',
+      getters.activeServer.roles
+    );
   },
 
-  assignRole({ getters }, data) {
-    getters.activeServer.namespace.emit('assignRole', data);
+  updateUserRole({ getters }, data) {
+    getters.activeServer.namespace.emit('updateUserRole', data);
   }
 };
 

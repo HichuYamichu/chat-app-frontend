@@ -2,7 +2,7 @@
   <v-list class="pa-0 userList">
     <v-subheader>Active</v-subheader>
 
-    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x offset-y>
+    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-y>
       <template v-slot:activator="{ on }">
         <v-list-tile
           v-on="on"
@@ -20,7 +20,7 @@
         </v-list-tile>
       </template>
 
-      <v-card>
+      <v-card max-width="500px">
         <v-list>
           <v-list-tile avatar>
             <v-list-tile-avatar>
@@ -31,14 +31,19 @@
               <v-list-tile-sub-title>eyy</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn>
+              <v-btn fab small flat>
                 <v-icon>favorite</v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
         <v-divider></v-divider>
-        <v-chip outline color v-for="(role, index) in userRoles" :key="index">{{role.roleName}}</v-chip>
+        <v-chip outline color v-for="(role, index) in userRoles" :key="index">
+          <v-avatar @click="removeRole(activeUser.username, role.roleName)">
+            <v-icon small>close</v-icon>
+          </v-avatar>
+          {{role.roleName}}
+        </v-chip>
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn icon small flat outline v-on="on">
@@ -49,7 +54,11 @@
             <v-list-tile v-for="(availableRole, index2) in availableRoles" :key="`#${index2}`">
               <v-list-tile-title>
                 <v-list-tile-action>
-                  <v-btn flat block @click="assignRole(activeUser.username, availableRole.roleName)">{{availableRole.roleName}}</v-btn>
+                  <v-btn
+                    flat
+                    block
+                    @click="assignRole(activeUser.username, availableRole.roleName)"
+                  >{{availableRole.roleName}}</v-btn>
                 </v-list-tile-action>
               </v-list-tile-title>
             </v-list-tile>
@@ -57,8 +66,6 @@
         </v-menu>
       </v-card>
     </v-menu>
-
-  
   </v-list>
 </template>
 
@@ -77,14 +84,21 @@ export default {
   },
   computed: {
     ...mapGetters(['activeServer', 'serverUsers']),
+    users: function() {
+      return this.activeServer.users
+    },
     userRoles: function() {
-      return this.activeServer.roles.filter(role =>
-        role.roleMembers.includes(this.activeUser.username) && role.roleName !== 'everyone'
+      return this.activeServer.roles.filter(
+        role =>
+          role.roleMembers.includes(this.activeUser.username) &&
+          role.roleName !== 'everyone'
       );
     },
     availableRoles: function() {
       return this.activeServer.roles.filter(
-        role => !this.userRoles.includes(role.roleName)
+        role =>
+          !this.userRoles.includes(role.roleName) &&
+          role.roleName !== 'everyone'
       );
     }
   },
@@ -93,8 +107,11 @@ export default {
       this.activeUser = user;
     },
     assignRole(user, role) {
-      this.$store.dispatch('assignRole', {user, role})
-      console.log(user, role)
+      this.$store.dispatch('updateUserRole', { user, role, actionType: 'assign' });
+      console.log(user, role);
+    },
+    removeRole: function(user, role) {
+      this.$store.dispatch('updateUserRole', { user, role, actionType: 'remove' });
     }
   }
 };

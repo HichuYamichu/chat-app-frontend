@@ -8,9 +8,8 @@
         @click:append="createRole"
         v-model="roleName"
       ></v-text-field>
-      <draggable v-model="roles">
+      <draggable v-model="roles" class="roleList">
         <v-btn
-          class
           block
           flat
           large
@@ -65,7 +64,7 @@ export default {
         { permName: 'send messages', permValue: 'sendMessages' },
         { permName: 'delete messages', permValue: 'deleteMessages' },
         { permName: 'kick members', permValue: 'kickMembers' },
-        { permName: 'ban members', permValue: 'banMembers' },
+        { permName: 'ban members', permValue: 'banMembers' }
       ]
     };
   },
@@ -78,6 +77,7 @@ export default {
         );
       },
       set(value) {
+        console.log(value)
         this.$store.commit('CHANGE_ROLE_ORDER', {
           newOrder: value,
           serverName: this.activeServer.serverName
@@ -98,7 +98,6 @@ export default {
       const newRole = {
         disallowedChannels: [],
         permissions: {},
-        roleLevel: this.activeServer.roles.length,
         roleMembers: [],
         roleName: this.roleName
       };
@@ -111,7 +110,7 @@ export default {
       this.activeRoleIndex = index;
     },
     save: function() {
-      this.$store.dispatch('saveRoles')
+      this.$store.dispatch('saveRoles');
     }
   }
 };
@@ -137,5 +136,10 @@ export default {
 
 .test * {
   display: inline-block;
+}
+
+.roleList {
+  display: flex;
+  flex-direction: column-reverse;
 }
 </style>
