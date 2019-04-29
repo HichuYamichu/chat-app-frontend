@@ -23,22 +23,14 @@ export default {
     return {
       username: "",
       password: "",
-      error: "",
-      errorMessage: ""
     };
   },
   methods: {
     login: async function() {
-      try {
-        await this.$store.dispatch("login", {
+       await this.$store.dispatch("login", {
           username: this.username,
           password: this.password
-        });
-      } catch (error) {
-        console.log(error)
-        this.error = true
-				this.errorMessage = error.response.data.error
-      }
+      });
     }
   }
 };

@@ -29,15 +29,10 @@ export default {
   },
   methods: {
     register: function() {
-      try {
-        this.$store.dispatch("register", {
-          username: this.username,
-          password: this.password
-        });
-      } catch (error) {
-        this.error = true
-				this.errorMessage = error.response.data.error
-      }
+      this.$store.dispatch("register", {
+        username: this.username,
+        password: this.password
+      });
     }
   }
 };

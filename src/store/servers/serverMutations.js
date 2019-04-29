@@ -20,8 +20,12 @@ const mutations = {
       .messages.unshift(...payload.messages);
   },
   UPDATE_ACTIVE_USERS(state, payload) {
-    state.servers.find(server => server.serverName === payload.serverName).users.length = 0;
-    state.servers.find(server => server.serverName === payload.serverName).users.push(...payload.userList);
+    state.servers.find(
+      server => server.serverName === payload.serverName
+    ).users.length = 0;
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .users.push(...payload.userList);
   },
   ASSIGN_ROLE_TO_USER(state, payload) {
     state.servers
@@ -38,6 +42,14 @@ const mutations = {
         .find(server => server.serverName === payload.serverName)
         .roles.find(role => role.roleName === payload.role)
         .roleMembers.filter(member => member !== payload.user);
+  },
+  NEW_USER_JOINED(state, payload) {
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .users.push({ ...payload.user });
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .roles[0].roleMembers.push(payload.user.username);
   },
   LEAVE_SERVER(state, serverName) {
     state.servers = state.servers.filter(
@@ -64,8 +76,12 @@ const mutations = {
     );
   },
   CHANGE_ROLE_ORDER(state, payload) {
-    state.servers.find(server => server.serverName === payload.serverName).roles.length = 1;
-    state.servers.find(server => server.serverName === payload.serverName).roles.push(...payload.newOrder);
+    state.servers.find(
+      server => server.serverName === payload.serverName
+    ).roles.length = 1;
+    state.servers
+      .find(server => server.serverName === payload.serverName)
+      .roles.push(...payload.newOrder);
   },
   ADD_NEW_ROLE(state, payload) {
     state.servers

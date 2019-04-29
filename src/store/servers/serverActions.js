@@ -48,6 +48,10 @@ const actions = {
       });
     });
 
+    server.namespace.on('userJoined', data => {
+      commit('NEW_USER_JOINED', { serverName: server.serverName, user: data });
+    });
+
     server.namespace.on('errorOccured', error => {
       commit('DISPLAY_ERROR', error);
     });
