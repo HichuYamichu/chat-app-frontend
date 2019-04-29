@@ -21,7 +21,6 @@
         >{{role.roleName}}</v-btn>
       </draggable>
       <v-btn
-        class
         block
         flat
         large
@@ -77,7 +76,6 @@ export default {
         );
       },
       set(value) {
-        console.log(value)
         this.$store.commit('CHANGE_ROLE_ORDER', {
           newOrder: value,
           serverName: this.activeServer.serverName

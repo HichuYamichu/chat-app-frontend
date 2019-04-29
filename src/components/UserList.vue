@@ -8,8 +8,8 @@
           v-on="on"
           @click="setActiveUser(user)"
           class
-          v-for="user in serverUsers"
-          :key="user.username"
+          v-for="(user, index) in serverUsers"
+          :key="index"
         >
           <v-list-tile-avatar>
             <v-icon :color="user.active ? 'success' : 'error'">perm_identity</v-icon>
@@ -38,7 +38,7 @@
           </v-list-tile>
         </v-list>
         <v-divider></v-divider>
-        <v-chip outline color v-for="(role, index) in userRoles" :key="index">
+        <v-chip outline color v-for="(role, index2) in userRoles" :key="`#${index2}`">
           <v-avatar @click="removeRole(activeUser.username, role.roleName)">
             <v-icon small>close</v-icon>
           </v-avatar>
@@ -51,7 +51,7 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-tile v-for="(availableRole, index2) in availableRoles" :key="`#${index2}`">
+            <v-list-tile v-for="(availableRole, index3) in availableRoles" :key="`##${index3}`">
               <v-list-tile-title>
                 <v-list-tile-action>
                   <v-btn
@@ -97,9 +97,14 @@ export default {
     availableRoles: function() {
       return this.activeServer.roles.filter(
         role =>
-          !this.userRoles.includes(role.roleName) &&
+          !this.userRoles.map(role => role.roleName).includes(role.roleName) &&
           role.roleName !== 'everyone'
       );
+    }
+  },
+  watch: {
+    serverUsers: function() {
+      this.$forceUpdate();
     }
   },
   methods: {
@@ -108,7 +113,6 @@ export default {
     },
     assignRole(user, role) {
       this.$store.dispatch('updateUserRole', { user, role, actionType: 'assign' });
-      console.log(user, role);
     },
     removeRole: function(user, role) {
       this.$store.dispatch('updateUserRole', { user, role, actionType: 'remove' });

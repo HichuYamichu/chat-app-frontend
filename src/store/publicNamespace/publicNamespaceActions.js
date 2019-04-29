@@ -3,7 +3,6 @@ import router from '@/router';
 
 const actions = {
   connectToPublic({ commit, dispatch }) {
-    console.log('connectiong');
     const namespace = io(`http://localhost:3000/public`);
     namespace.on('serverCreated', server => {
       dispatch('loadServer', server, { root: true });
@@ -11,7 +10,6 @@ const actions = {
     });
 
     namespace.on('joinedServer', server => {
-      console.log(server);
       dispatch('loadServer', server, { root: true });
     });
 
