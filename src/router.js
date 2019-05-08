@@ -4,6 +4,7 @@ import _Server from './views/Server';
 import Register from './views/Register';
 import Login from './views/Login';
 import NewServerForm from './views/NewServerForm';
+import UserPanel from './views/UserPanel';
 import Home from './views/Home';
 import store from './store/index';
 
@@ -16,6 +17,17 @@ export default new Router({
       path: '/',
       name: 'Chat-app',
       component: Home,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.user) {
+          next();
+        } else {
+          next('/login');
+        }
+      }
+    },
+    {
+      path: '/user',
+      component: UserPanel,
       beforeEnter: (to, from, next) => {
         if (store.getters.user) {
           next();

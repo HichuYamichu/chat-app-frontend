@@ -46,7 +46,7 @@ const mutations = {
   NEW_USER_JOINED(state, payload) {
     state.servers
       .find(server => server.serverName === payload.serverName)
-      .users.push({ ...payload.user });
+      .users.push(payload.user);
     state.servers
       .find(server => server.serverName === payload.serverName)
       .roles[0].roleMembers.push(payload.user.username);

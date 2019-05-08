@@ -1,25 +1,16 @@
 <template>
-  <v-list class="pa-0 userList">
-    <v-subheader>Active</v-subheader>
-
-    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-y>
-      <template v-slot:activator="{ on }">
-        <v-list-tile
-          v-on="on"
-          @click="setActiveUser(user)"
-          class
-          v-for="(user, index) in serverUsers"
-          :key="index"
-        >
-          <v-list-tile-avatar>
-            <v-icon :color="user.active ? 'success' : 'error'">perm_identity</v-icon>
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title v-html="user.username"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </template>
-
+  <div id="users">
+    <v-list class="pa-0 userList">
+      <v-list-tile v-for="(user, index) in serverUsers" :key="index" @click.stop="setActiveUser(user)">
+        <v-list-tile-avatar>
+          <v-icon :color="user.active ? 'success' : 'error'">perm_identity</v-icon>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title v-html="user.username"></v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+    <v-dialog v-model="dialog" max-width="290" attach="#users" hide-overlay>
       <v-card max-width="500px">
         <v-list>
           <v-list-tile avatar>
@@ -65,8 +56,8 @@
           </v-list>
         </v-menu>
       </v-card>
-    </v-menu>
-  </v-list>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -75,7 +66,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      menu: false,
+      dialog: false,
       activeUser: {
         username: '',
         avatar: ''
@@ -84,9 +75,6 @@ export default {
   },
   computed: {
     ...mapGetters(['activeServer', 'serverUsers']),
-    users: function() {
-      return this.activeServer.users
-    },
     userRoles: function() {
       return this.activeServer.roles.filter(
         role =>
@@ -102,20 +90,28 @@ export default {
       );
     }
   },
-  watch: {
-    serverUsers: function() {
-      this.$forceUpdate();
-    }
-  },
   methods: {
     setActiveUser: function(user) {
       this.activeUser = user;
+      this.dialog = true;
     },
     assignRole(user, role) {
-      this.$store.dispatch('updateUserRole', { user, role, actionType: 'assign' });
+      this.$store.dispatch('updateUserRole', {
+        user,
+        role,
+        actionType: 'assign'
+      });
     },
     removeRole: function(user, role) {
-      this.$store.dispatch('updateUserRole', { user, role, actionType: 'remove' });
+      this.$store.dispatch('updateUserRole', {
+        user,
+        role,
+        actionType: 'remove'
+      });
+    },
+    test: function() {
+      this.users.push({ username: 'dsad', active: true });
+      console.log(this.users);
     }
   }
 };
@@ -125,5 +121,10 @@ export default {
 .userList {
   max-height: 90%;
   overflow: hidden;
+}
+.test {
+  position: fixed;
+  top: 10px;
+  right: 10px;
 }
 </style>

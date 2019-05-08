@@ -6,6 +6,11 @@ const actions = {
     server.namespace = io(`http://localhost:3000/${server.serverName}`);
     server.currentChannel = 'main';
     server.isActive = false;
+    if (server.icon) {
+      server.icon = `http://localhost:3000/static/${server.serverName}.jpg`;
+    } else {
+      server.icon = '/img/serverIcon.png';
+    }
     server.namespace.emit(
       'init',
       server.channels.map(channel => channel.channelName)
