@@ -47,13 +47,13 @@ export default new Router({
       component: Register
     },
     {
-      path: '/servers/:serverName',
+      path: '/servers/:serverID/:channelID',
       name: 'Server',
       component: _Server,
       beforeEnter: (to, from, next) => {
         if (store.getters.user) {
-          if (to.params.serverName) {
-            store.getters.servers.find(server => server.serverName === to.params.serverName).isActive = true;
+          if (to.params.serverID) {
+            store.getters.servers.find(server => server._id === to.params.serverID).isActive = true;
           }
           next();
         } else {

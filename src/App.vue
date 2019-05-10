@@ -3,11 +3,11 @@
     <page-header app/>
     <v-content>
       <v-container fluid>
-      <v-layout row wrap justify-space-around>
-        <v-flex xs12>
-          <router-view></router-view>
-        </v-flex>
-      </v-layout>
+        <v-layout row wrap justify-space-around>
+          <v-flex xs12>
+            <router-view></router-view>
+          </v-flex>
+        </v-layout>
       </v-container>
     </v-content>
     <error-dialog/>
@@ -15,13 +15,19 @@
 </template>
 
 <script>
-import PageHeader from "./components/PageHeader";
-import ErrorDialog from "./components/dialogs/ErrorDialog";
+import PageHeader from './components/PageHeader';
+import ErrorDialog from './components/dialogs/ErrorDialog';
 
 export default {
   components: {
     PageHeader,
     ErrorDialog
+  },
+  async created() {
+    const { data } = await this.axios.get('users/checkLoginState');
+    if (data) {
+      this.$store.dispatch('syncWithSession', data);
+    }
   }
 };
 </script>
@@ -50,6 +56,6 @@ html {
 .serverList {
   border-radius: 25px;
   padding: 10px;
-  background-color: #E5E2E2;
+  background-color: #e5e2e2;
 }
 </style>

@@ -6,7 +6,7 @@ const actions = {
     const namespace = io(`http://localhost:3000/public`);
     namespace.on('serverCreated', server => {
       dispatch('loadServer', server, { root: true });
-      router.push(`/servers/${server.serverName}`);
+      router.push(`/servers/${server._id}/${server.channels[0]._id}`);
     });
 
     namespace.on('joinedServer', server => {

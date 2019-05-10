@@ -58,21 +58,21 @@ export default {
     }
   },
   beforeRouteUpdate(to, from, next) {
-    if (to.params.serverName) {
-      if (from.params.serverName) {
+    if (to.params.serverID) {
+      if (from.params.serverID) {
         this.servers.find(
-          server => server.serverName === from.params.serverName
+          server => server._id === from.params.serverID
         ).isActive = false;
       }
       this.servers.find(
-        server => server.serverName === to.params.serverName
+        server => server._id === to.params.serverID
       ).isActive = true;
     }
     next();
   },
   beforeRouteLeave(to, from, next) {
     this.servers.find(
-      server => server.serverName === from.params.serverName
+      server => server._id === from.params.serverID
     ).isActive = false;
     next();
   }

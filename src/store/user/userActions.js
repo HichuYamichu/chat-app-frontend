@@ -4,14 +4,11 @@ import router from '@/router';
 const actions = {
   async register({ commit, dispatch }, credentials) {
     try {
-      const user = await axios.post(
-        'users/register',
-        {
-          username: credentials.username,
-          password: credentials.password,
-          memberOf: []
-        }
-      );
+      const user = await axios.post('users/register', {
+        username: credentials.username,
+        password: credentials.password,
+        memberOf: []
+      });
       commit('SET_USER', user.data);
       dispatch('connectToPublic', null, { root: true });
       router.push('/');
@@ -34,6 +31,14 @@ const actions = {
     } catch (error) {
       commit('DISPLAY_ERROR', error, { root: true });
     }
+  },
+  syncWithSession({ commit, dispatch }, data) {
+    commit('SET_USER', data.user);
+    dispatch('connectToPublic', null, { root: true });
+    data.servers.forEach(server => {
+      dispatch('loadServer', server, { root: true });
+    });
+    router.push('/');
   },
   logout({ commit, dispatch }) {
     router.push('/login');

@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     go: function(server, index) {
-      this.$router.push({ path: `/servers/${server.serverName}` });
+      this.$router.push({ path: `/servers/${server._id}/${server.channels[0]._id}` });
     },
     goToNewServerForm: function() {
       this.$router.push('/new')
