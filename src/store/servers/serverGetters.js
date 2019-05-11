@@ -5,11 +5,9 @@ const getters = {
     if (!gettersArg.activeServer) return null;
     return gettersArg.activeServer.users;
   },
-  activeChannel: (state, gettersArg) => {
+  findActiveChannel: (state, gettersArg) => channelID => {
     if (!gettersArg.activeServer) return null;
-    return gettersArg.activeServer.channels.find(
-      channel => channel.channelName === gettersArg.activeServer.currentChannel
-    );
+    return gettersArg.activeServer.channels.find(channel => channel._id === channelID);
   }
 };
 

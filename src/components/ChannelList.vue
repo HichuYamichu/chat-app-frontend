@@ -6,7 +6,7 @@
           color="primary"
           block
           flat
-          @click="changeChannel(channel.channelName)"
+          @click="changeChannel(channel._id)"
         >{{ channel.channelName }}</v-btn>
       </v-list-tile>
     </v-list>
@@ -17,14 +17,14 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['activeServer', 'activeChannel'])
+    ...mapGetters(['activeServer', 'findActiveChannel']),
+    activeChannel: function() {
+      return this.findActiveChannel(this.$route.params.channelID)
+    }
   },
   methods: {
-    changeChannel: function(channelName) {
-      this.$store.commit('CHANGE_ACTIVECHANNEL', {
-        channelName: channelName,
-        serverName: this.activeServer.serverName
-      });
+    changeChannel: function(channelID) {
+      this.$router.push(`/servers/${this.$route.params.serverID}/${channelID}`)
     }
   }
 };

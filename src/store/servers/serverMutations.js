@@ -1,11 +1,8 @@
+import router from '@/router';
+
 const mutations = {
   ADD_SERVER(state, server) {
     state.servers.push(server);
-  },
-  CHANGE_ACTIVECHANNEL(state, payload) {
-    state.servers.find(
-      server => server.serverName === payload.serverName
-    ).currentChannel = payload.channelName;
   },
   ADD_MESSAGE(state, message) {
     state.servers
@@ -65,14 +62,12 @@ const mutations = {
       .channels.push(payload.channel);
   },
   REMOVE_CHANNEL(state, payload) {
+    console.log(payload);
     const serverToAlter = state.servers.find(
-      server => server.serverName === payload.serverName
+      server => server._id === payload.serverID
     );
-    if (serverToAlter.currentChannel === payload.channelName) {
-      serverToAlter.currentChannel = 'main';
-    }
     serverToAlter.channels = serverToAlter.channels.filter(
-      channel => channel.channelName !== payload.channelName
+      channel => channel._id !== payload.channelID
     );
   },
   CHANGE_ROLE_ORDER(state, payload) {

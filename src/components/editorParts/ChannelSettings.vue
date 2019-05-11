@@ -39,7 +39,9 @@ export default {
       this.NewChannelForm = true;
     },
     deleteChannel() {
-      this.activeServer.namespace.emit('deleteChannel', this.editedChannel);
+      console.log(this.editedChannel)
+      const { _id } = this.activeServer.channels.find(channel => channel.channelName === this.editedChannel)
+      this.activeServer.namespace.emit('deleteChannel', _id);
     }
   }
 };

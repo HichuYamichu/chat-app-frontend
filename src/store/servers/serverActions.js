@@ -2,9 +2,8 @@ import router from '@/router';
 import io from 'socket.io-client';
 
 const actions = {
-  loadServer({ commit }, server) {
+  loadServer({ commit, getters }, server) {
     server.namespace = io(`http://localhost:3000/${server.serverName}`);
-    server.currentChannel = 'main';
     server.isActive = false;
     if (server.icon) {
       server.icon = `http://localhost:3000/static/${server.serverName}.jpg`;
@@ -47,9 +46,15 @@ const actions = {
     });
 
     server.namespace.on('channelDeleted', data => {
+      console.log(router.history.current.params);
+      if (router.history.current.params.channelID === data) {
+        router.push(
+          `/servers/${getters.activeServer._id}/${getters.activeServer.channels[0]._id}`
+        );
+      }
       commit('REMOVE_CHANNEL', {
-        serverName: server.serverName,
-        channelName: data
+        serverID: server._id,
+        channelID: data
       });
     });
 

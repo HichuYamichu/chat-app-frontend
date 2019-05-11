@@ -35,9 +35,12 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'activeChannel',
+      'findActiveChannel',
       'activeServer'
-    ])
+    ]),
+    activeChannel: function() {
+      return this.findActiveChannel(this.$route.params.channelID)
+    }
   },
   methods: {
     sendMessage: function() {
