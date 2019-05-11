@@ -32,7 +32,7 @@ export default {
   methods: {
     leave: function() {
       this.show = false;
-      this.$store.dispatch('leaveServer', this.activeServer.serverName);
+      this.$store.dispatch('leaveServer', this.activeServer._id);
     }
   }
 };

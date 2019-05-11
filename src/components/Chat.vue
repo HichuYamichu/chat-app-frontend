@@ -47,7 +47,7 @@ export default {
       if (this.message.content == "") return;
       this.message.timestamp = Date.now();
       this.activeServer.namespace.emit("messageSend", {
-        channel: this.activeChannel.channelName,
+        channelID: this.activeChannel._id,
         message: this.message
       });
       this.message.content = "";
@@ -55,7 +55,7 @@ export default {
     onScroll: function(e) {
       if (e.target.scrollTop !== 0) return
       this.activeServer.namespace.emit('fetchMessages', {
-        channel: this.activeChannel.channelName,
+        channelID: this.activeChannel._id,
         lastMesssageTimestamp: this.activeChannel.messages[0].timestamp
       })
       const chatBox = this.$el.querySelector("#style-1");

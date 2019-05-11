@@ -26,8 +26,8 @@
               <v-card-actions>
                 <v-btn
                   color="base"
-                  @click="joinServer(serverData.serverName)"
-                  :disabled="canJoin(serverData.serverName)"
+                  @click="joinServer(serverData._id)"
+                  :disabled="canJoin(serverData._id)"
                 >join</v-btn>
               </v-card-actions>
             </v-card>
@@ -55,15 +55,15 @@ export default {
     this.serversInfo = data;
   },
   methods: {
-    canJoin: function(serverName) {
-      if (this.servers.some(server => server.serverName === serverName)) {
+    canJoin: function(serverID) {
+      if (this.servers.some(server => server._id === serverID)) {
         return this.servers
-          .find(server => server.serverName === serverName)
+          .find(server => server._id === serverID)
           .roles[0].roleMembers.some(member => member === this.user.username);
       } else return false;
     },
-    joinServer: async function(serverName) {
-      this.$store.dispatch('joinServer', serverName);
+    joinServer: async function(serverID) {
+      this.$store.dispatch('joinServer', serverID);
     }
   }
 };

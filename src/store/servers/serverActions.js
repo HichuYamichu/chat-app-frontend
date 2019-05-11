@@ -3,35 +3,35 @@ import io from 'socket.io-client';
 
 const actions = {
   loadServer({ commit, getters }, server) {
-    server.namespace = io(`http://localhost:3000/${server.serverName}`);
+    server.namespace = io(`http://localhost:3000/${server._id}`);
     server.isActive = false;
     if (server.icon) {
-      server.icon = `http://localhost:3000/static/${server.serverName}.jpg`;
+      server.icon = `http://localhost:3000/static/${server._id}.jpg`;
     } else {
       server.icon = '/img/serverIcon.png';
     }
     server.namespace.emit(
       'init',
-      server.channels.map(channel => channel.channelName)
+      server.channels.map(channel => channel._id)
     );
 
     server.namespace.on('messageRecived', data => {
       commit('ADD_MESSAGE', {
-        serverName: server.serverName,
-        channelName: data.channel,
+        serverID: server._id,
+        channelID: data.channelID,
         data: data.message
       });
     });
 
     server.namespace.on('updateMessages', data => {
-      data.serverName = server.serverName;
+      data.serverID = server._id;
       commit('APPEND_MESSAGES', data);
     });
 
     server.namespace.on('updateActiveUsers', data => {
       commit('UPDATE_ACTIVE_USERS', {
         userList: data,
-        serverName: server.serverName
+        serverID: server._id
       });
     });
 
@@ -42,7 +42,7 @@ const actions = {
     });
 
     server.namespace.on('addChannel', data => {
-      commit('ADD_CHANNEL', { channel: data, serverName: server.serverName });
+      commit('ADD_CHANNEL', { channel: data, serverID: server._id });
     });
 
     server.namespace.on('channelDeleted', data => {
@@ -59,7 +59,7 @@ const actions = {
     });
 
     server.namespace.on('userJoined', data => {
-      commit('NEW_USER_JOINED', { serverName: server.serverName, user: data });
+      commit('NEW_USER_JOINED', { serverID: server._id, user: data });
     });
 
     server.namespace.on('errorOccured', error => {
@@ -67,19 +67,19 @@ const actions = {
     });
 
     server.namespace.on('updateRoles', roles => {
-      commit('UPDATE_ROLES', { serverName: server.serverName, roles });
+      commit('UPDATE_ROLES', { serverID: server._id, roles });
     });
 
     server.namespace.on('updateUserRole', data => {
       if (data.actionType === 'assign') {
         commit('ASSIGN_ROLE_TO_USER', {
-          serverName: server.serverName,
+          serverID: server._id,
           user: data.user,
           role: data.role
         });
       } else if (data.actionType === 'remove') {
         commit('REMOVE_ROLE_FROM_USER', {
-          serverName: server.serverName,
+          serverID: server._id,
           user: data.user,
           role: data.role
         });
@@ -89,18 +89,18 @@ const actions = {
     commit('ADD_SERVER', server);
   },
 
-  leaveServer({ commit, getters }, serverName) {
+  leaveServer({ commit, getters }, serverID) {
     router.push('/');
     getters.servers
-      .find(server => server.serverName === serverName)
+      .find(server => server._id === serverID)
       .namespace.emit('leaveServer');
-    commit('LEAVE_SERVER', serverName);
+    commit('LEAVE_SERVER', serverID);
   },
 
-  deleteServer({ commit, getters }, serverName) {
+  deleteServer({ commit, getters }, serverID) {
     router.push('/');
     getters.servers
-      .find(server => server.serverName === serverName)
+      .find(server => server._id === serverID)
       .namespace.emit('deleteServer');
   },
 

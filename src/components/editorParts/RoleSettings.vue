@@ -78,7 +78,7 @@ export default {
       set(value) {
         this.$store.commit('CHANGE_ROLE_ORDER', {
           newOrder: value,
-          serverName: this.activeServer.serverName
+          serverID: this.activeServer._id
         });
       }
     },
@@ -101,7 +101,7 @@ export default {
       };
       this.$store.commit('ADD_NEW_ROLE', {
         newRole,
-        serverName: this.activeServer.serverName
+        serverID: this.activeServer._id
       });
     },
     changeActiveRole: function(index) {

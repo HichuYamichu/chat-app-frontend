@@ -24,8 +24,8 @@ const actions = {
     getters.publicNamespace.emit('createServer', serverData);
   },
 
-  joinServer({ dispatch, getters }, serverName) {
-    getters.publicNamespace.emit('joinServer', serverName);
+  joinServer({ dispatch, getters }, serverID) {
+    getters.publicNamespace.emit('joinServer', serverID);
   },
 
   disconnectMain({ commit, getters }) {

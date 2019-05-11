@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     deleteServer: function() {
-      this.$store.dispatch('deleteServer', this.activeServer.serverName)
+      this.$store.dispatch('deleteServer', this.activeServer._id)
     }
   }
 }
