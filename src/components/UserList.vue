@@ -48,7 +48,7 @@
                   <v-btn
                     flat
                     block
-                    @click="assignRole(activeUser.username, availableRole.roleName)"
+                    @click="assignRole(activeUser._id, availableRole._id)"
                   >{{availableRole.roleName}}</v-btn>
                 </v-list-tile-action>
               </v-list-tile-title>
@@ -68,6 +68,7 @@ export default {
     return {
       dialog: false,
       activeUser: {
+        _id: '',
         username: '',
         avatar: ''
       }
@@ -78,7 +79,7 @@ export default {
     userRoles: function() {
       return this.activeServer.roles.filter(
         role =>
-          role.roleMembers.includes(this.activeUser.username) &&
+          role.roleMembers.includes(this.activeUser._id) &&
           role.roleName !== 'everyone'
       );
     },
@@ -95,17 +96,17 @@ export default {
       this.activeUser = user;
       this.dialog = true;
     },
-    assignRole(user, role) {
+    assignRole(userID, roleID) {
       this.$store.dispatch('updateUserRole', {
-        user,
-        role,
+        userID,
+        roleID,
         actionType: 'assign'
       });
     },
-    removeRole: function(user, role) {
+    removeRole: function(userID, roleID) {
       this.$store.dispatch('updateUserRole', {
-        user,
-        role,
+        userID,
+        roleID,
         actionType: 'remove'
       });
     },

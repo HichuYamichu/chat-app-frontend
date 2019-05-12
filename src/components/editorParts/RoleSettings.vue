@@ -37,7 +37,7 @@
         :key="permission.permName"
       >
         <h3 class="title">{{ permission.permName }}</h3>
-        <v-switch class="switch" v-model="activeRole.permissions[permission.permValue]"></v-switch>
+        <v-switch class="switch" v-model="activeRole.permissionSets[0].permissions[permission.permValue]"></v-switch>
       </v-chip>
     </v-flex>
     <v-flex xs12 mt-4>
@@ -94,10 +94,9 @@ export default {
   methods: {
     createRole: function() {
       const newRole = {
-        disallowedChannels: [],
-        permissions: {},
+        roleName: this.roleName,
+        permissionSets: [{ _id: null, permissions: {} }],
         roleMembers: [],
-        roleName: this.roleName
       };
       this.$store.commit('ADD_NEW_ROLE', {
         newRole,

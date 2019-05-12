@@ -54,7 +54,7 @@ export default {
   computed: {
     ...mapGetters(['activeServer', 'servers', 'user']),
     canEdit: function() {
-      return this.activeServer.owner === this.user.username;
+      return this.activeServer.owner._id === this.user._id;
     }
   },
   beforeRouteUpdate(to, from, next) {

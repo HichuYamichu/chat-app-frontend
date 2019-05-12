@@ -1,5 +1,3 @@
-import router from '@/router';
-
 const mutations = {
   ADD_SERVER(state, server) {
     state.servers.push(server);
@@ -25,28 +23,21 @@ const mutations = {
       .users.push(...payload.userList);
   },
   ASSIGN_ROLE_TO_USER(state, payload) {
+    console.log(payload)
     state.servers
       .find(server => server._id === payload.serverID)
-      .roles.find(role => role.roleName === payload.role)
-      .roleMembers.push(payload.user);
+      .roles.find(role => role._id === payload.roleID)
+      .roleMembers.push(payload.userID);
   },
   REMOVE_ROLE_FROM_USER(state, payload) {
     state.servers
       .find(server => server._id === payload.serverID)
       .roles.find(
-        role => role.roleName === payload.role
+        role => role.roleName === payload.roleID
       ).roleMembers = state.servers
         .find(server => server._id === payload.serverID)
-        .roles.find(role => role.roleName === payload.role)
-        .roleMembers.filter(member => member !== payload.user);
-  },
-  NEW_USER_JOINED(state, payload) {
-    state.servers
-      .find(server => server._id === payload.serverID)
-      .users.push(payload.user);
-    state.servers
-      .find(server => server._id === payload.serverID)
-      .roles[0].roleMembers.push(payload.user.username);
+        .roles.find(role => role._id === payload.roleID)
+        .roleMembers.filter(member => member !== payload.userID);
   },
   LEAVE_SERVER(state, serverID) {
     state.servers = state.servers.filter(

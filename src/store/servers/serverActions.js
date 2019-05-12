@@ -10,10 +10,6 @@ const actions = {
     } else {
       server.icon = '/img/serverIcon.png';
     }
-    server.namespace.emit(
-      'init',
-      server.channels.map(channel => channel._id)
-    );
 
     server.namespace.on('messageRecived', data => {
       commit('ADD_MESSAGE', {
@@ -58,10 +54,6 @@ const actions = {
       });
     });
 
-    server.namespace.on('userJoined', data => {
-      commit('NEW_USER_JOINED', { serverID: server._id, user: data });
-    });
-
     server.namespace.on('errorOccured', error => {
       commit('DISPLAY_ERROR', error);
     });
@@ -74,14 +66,14 @@ const actions = {
       if (data.actionType === 'assign') {
         commit('ASSIGN_ROLE_TO_USER', {
           serverID: server._id,
-          user: data.user,
-          role: data.role
+          userID: data.userID,
+          roleID: data.roleID
         });
       } else if (data.actionType === 'remove') {
         commit('REMOVE_ROLE_FROM_USER', {
           serverID: server._id,
-          user: data.user,
-          role: data.role
+          userID: data.userID,
+          roleID: data.roleID
         });
       }
     });

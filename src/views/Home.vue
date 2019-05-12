@@ -59,7 +59,7 @@ export default {
       if (this.servers.some(server => server._id === serverID)) {
         return this.servers
           .find(server => server._id === serverID)
-          .roles[0].roleMembers.some(member => member === this.user.username);
+          .roles[0].roleMembers.some(member => member === this.user._id);
       } else return false;
     },
     joinServer: async function(serverID) {
