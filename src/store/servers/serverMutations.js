@@ -23,7 +23,6 @@ const mutations = {
       .users.push(...payload.userList);
   },
   ASSIGN_ROLE_TO_USER(state, payload) {
-    console.log(payload)
     state.servers
       .find(server => server._id === payload.serverID)
       .roles.find(role => role._id === payload.roleID)
@@ -53,7 +52,6 @@ const mutations = {
       .channels.push(payload.channel);
   },
   REMOVE_CHANNEL(state, payload) {
-    console.log(payload);
     const serverToAlter = state.servers.find(
       server => server._id === payload.serverID
     );

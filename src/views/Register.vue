@@ -8,7 +8,7 @@
         <v-text-field outline type="text" v-model="username" label="username"></v-text-field>
       </v-flex>
       <v-flex xs12 md8>
-        <v-text-field outline type="password" v-model="password" label="password"></v-text-field>
+        <v-text-field outline v-on:keyup.enter="register" type="password" v-model="password" label="password"></v-text-field>
       </v-flex>
       <v-flex xs12>
         <v-btn class="base" @click="register">register</v-btn>

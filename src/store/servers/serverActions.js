@@ -107,13 +107,6 @@ const actions = {
     commit('CLEAR_STATE');
   },
 
-  saveRoles({ getters }) {
-    getters.activeServer.namespace.emit(
-      'updateRoles',
-      getters.activeServer.roles
-    );
-  },
-
   updateUserRole({ getters }, data) {
     getters.activeServer.namespace.emit('updateUserRole', data);
   }

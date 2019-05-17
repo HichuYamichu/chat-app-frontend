@@ -8,14 +8,13 @@
         @click:append="createRole"
         v-model="roleName"
       ></v-text-field>
-      <draggable v-model="roles" class="roleList">
+      <draggable v-model="roles">
         <v-btn
           block
           flat
-          large
           outline
           :input-value="role.roleName === activeRole.roleName"
-          @click="changeActiveRole(index + 1)"
+          @click="changeActiveRole(index)"
           v-for="(role, index) in roles"
           :key="index"
         >{{role.roleName}}</v-btn>
@@ -23,22 +22,30 @@
       <v-btn
         block
         flat
-        large
         outline
-        :input-value="activeRole.roleName === activeServer.roles[0].roleName"
-        @click="changeActiveRole(0)"
-      >{{activeServer.roles[0].roleName}}</v-btn>
+        :input-value="activeRole.roleName === 'everyone'"
+        @click="changeToEveryone()"
+      >everyone</v-btn>
     </v-flex>
     <v-flex xs2>
       <v-chip
-        class="test pa-3"
+        class="permissionBlock pa-3"
         text-color="white"
         v-for="permission in permissionList"
         :key="permission.permName"
       >
         <h3 class="title">{{ permission.permName }}</h3>
-        <v-switch class="switch" v-model="activeRole.permissionSets[0].permissions[permission.permValue]"></v-switch>
+        <v-switch
+          class="switch"
+          v-model="activeRole.permissionSets[0].permissions[permission.permValue]"
+        ></v-switch>
       </v-chip>
+      <v-btn
+        :disabled="activeRole.roleName === 'everyone'"
+        @click="deleteRole"
+        outline
+        color="error"
+      >delete role</v-btn>
     </v-flex>
     <v-flex xs12 mt-4>
       <v-btn class="success" large @click="save">save</v-btn>
@@ -57,7 +64,9 @@ export default {
   data() {
     return {
       roleName: '',
-      activeRoleIndex: 0,
+      roles: [],
+      everyone: {},
+      activeRole: {},
       permissionList: [
         { permName: 'administrator', permValue: 'admin' },
         { permName: 'send messages', permValue: 'sendMessages' },
@@ -68,46 +77,34 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['activeServer']),
-    roles: {
-      get() {
-        return this.activeServer.roles.filter(
-          role => role.roleName !== 'everyone'
-        );
-      },
-      set(value) {
-        this.$store.commit('CHANGE_ROLE_ORDER', {
-          newOrder: value,
-          serverID: this.activeServer._id
-        });
-      }
-    },
-    activeRole: {
-      get() {
-        return this.activeServer.roles[this.activeRoleIndex];
-      },
-      set(index) {
-        this.activeRoleIndex = index;
-      }
-    }
+    ...mapGetters(['activeServer'])
+  },
+  created() {
+    this.roles = [...this.activeServer.roles];
+    this.roles.reverse();
+    this.everyone = this.roles.shift();
+    this.activeRole = this.everyone
   },
   methods: {
     createRole: function() {
       const newRole = {
         roleName: this.roleName,
-        permissionSets: [{ _id: null, permissions: {} }],
-        roleMembers: [],
+        permissionSets: [{ permissions: {} }],
+        roleMembers: []
       };
-      this.$store.commit('ADD_NEW_ROLE', {
-        newRole,
-        serverID: this.activeServer._id
-      });
+      this.roles.unshift(newRole);
     },
     changeActiveRole: function(index) {
-      this.activeRoleIndex = index;
+      
+      this.activeRole = this.roles[index];
     },
+    changeToEveryone: function() {
+      this.activeRole = this.everyone
+    },
+    deleteRole: function() {},
     save: function() {
-      this.$store.dispatch('saveRoles');
+      // this.$store.dispatch('saveRoles');
+      this.activeServer.namespace.emit('updateRoles', [this.everyone, ...this.roles])
     }
   }
 };
@@ -120,23 +117,17 @@ export default {
 }
 
 .switch {
-  /* margin: 20px 0px 0px 35% */
   position: absolute;
   right: 10px;
   margin: 10px 0 0 0;
 }
 
-.test {
+.permissionBlock {
   position: relative;
   width: 300px;
 }
 
-.test * {
+.permissionBlock * {
   display: inline-block;
-}
-
-.roleList {
-  display: flex;
-  flex-direction: column-reverse;
 }
 </style>

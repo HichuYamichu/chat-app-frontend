@@ -1,4 +1,5 @@
 module.exports = {
+  outputDir: '../backend/dist',
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
