@@ -11,7 +11,11 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import colors from 'vuetify/es5/util/colors';
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:3000/api/';
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = 'http://localhost:3000/api/';
+} else {
+  axios.defaults.baseURL = `${process.env.BASE_URL}/api`;
+}
 
 Vue.use(Vuetify, {
   iconfont: 'md',

@@ -3,10 +3,11 @@ import io from 'socket.io-client';
 
 const actions = {
   loadServer({ commit, getters }, server) {
-    server.namespace = io(`http://localhost:3000/${server._id}`);
+    const addr = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : 'http://localhost:3000';
+    server.namespace = io(`${addr}/${server._id}`);
     server.isActive = false;
     if (server.icon) {
-      server.icon = `http://localhost:3000/static/${server._id}.jpg`;
+      server.icon = `${addr}/static/${server._id}.jpg`;
     } else {
       server.icon = '/img/serverIcon.png';
     }
