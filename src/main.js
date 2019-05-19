@@ -14,7 +14,7 @@ axios.defaults.withCredentials = true;
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://localhost:3000/api/';
 } else {
-  axios.defaults.baseURL = `${process.env.BASE_URL}/api`;
+  axios.defaults.baseURL = `${process.env.VUE_APP_BASE_URL}/api`;
 }
 
 Vue.use(Vuetify, {
