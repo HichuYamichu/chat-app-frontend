@@ -1,4 +1,3 @@
-import path from 'path';
 import { app, protocol, BrowserWindow } from 'electron';
 import {
   createProtocol,
@@ -17,11 +16,12 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1000,
     height: 800,
+    icon: `${__dirname}/public/img/icons/android-chrome-512x512.png`,
     webPreferences: {
       webSecurity: false
     }
   });
-  // win.openDevTools();
+  win.openDevTools();
 
   const { session } = require('electron');
   const filter = {
@@ -31,8 +31,8 @@ function createWindow() {
     filter,
     (details, callback) => {
       details.requestHeaders['DNT'] = '1';
-      details.requestHeaders['Referer'] = 'http://localhost:8080';
-      details.requestHeaders['Origin'] = 'http://localhost:3000';
+      details.requestHeaders['Referer'] = 'app://chat-app-client';
+      details.requestHeaders['Origin'] = 'app://chat-app-client';
       callback({ cancel: false, requestHeaders: details.requestHeaders });
     }
   );

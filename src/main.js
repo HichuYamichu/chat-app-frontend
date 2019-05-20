@@ -14,6 +14,7 @@ axios.defaults.withCredentials = true;
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://localhost:3000/api/';
 } else {
+  console.log(process.env)
   axios.defaults.baseURL = `${process.env.VUE_APP_BASE_URL}/api`;
 }
 
@@ -36,8 +37,11 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  mounted() {
-    // Prevent blank screen in Electron builds
+  async mounted() {
+    const { data } = await this.axios.get('users/checkLoginState');
+    if (data) {
+      this.$store.dispatch('syncWithSession', data);
+    }
     this.$router.push('/login');
   },
   render: h => h(App)
