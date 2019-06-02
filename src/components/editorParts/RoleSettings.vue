@@ -103,7 +103,6 @@ export default {
     },
     deleteRole: function() {},
     save: function() {
-      // this.$store.dispatch('saveRoles');
       this.activeServer.namespace.emit('updateRoles', [this.everyone, ...this.roles])
     }
   }

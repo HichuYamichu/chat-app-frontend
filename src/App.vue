@@ -11,7 +11,7 @@
       </v-container>
     </v-content>
     <error-dialog/>
-    <v-snackbar top v-model="snackbar" :timeout="10000">
+    <v-snackbar top v-model="snackbar" :timeout="2000">
       Download desktop app
       <v-btn icon small @click="download">
         <v-icon>cloud_download</v-icon>

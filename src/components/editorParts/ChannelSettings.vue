@@ -1,29 +1,55 @@
 <template>
-  <div>
-    <div class="channelSelect mt-4">
-      <v-select :items="channels" v-model="editedChannel" label="Choose channel" outline></v-select>
-      <v-btn class="base" large flat>Restrict access</v-btn>
-      <v-btn class="error" large flat @click="deleteChannel">Delete</v-btn>
-      <v-btn class="success" large flat @click="openNewChannelForm">Create new</v-btn>
-    </div>
-    <new-channel-form v-model="NewChannelForm"/>
-  </div>
+  <v-layout row wrap class="mt-5">
+    <v-flex xs2 offset-xs4 my-2 mr-2>
+      <v-text-field
+        label="new channel"
+        outline
+        append-icon="add"
+        @click:append="createChannel"
+        v-model="channelName"
+      ></v-text-field>
+      <v-btn
+        block
+        flat
+        outline
+        :input-value="activeChannel.channelName === 'main'"
+        @click="changeToMain()"
+      >everyone</v-btn>
+      <draggable v-model="channels">
+        <v-btn
+          block
+          flat
+          outline
+          :input-value="channel.channelName === activeChannel.channelName"
+          @click="changeActiveChannel(index)"
+          v-for="(channel, index) in channels"
+          :key="index"
+        >{{ channel.channelName }}</v-btn>
+      </draggable>
+    </v-flex>
+    <v-flex xs2>
+      <v-btn
+        :disabled="activeChannel.channelName === 'main'"
+        @click="deleteRole"
+        outline
+        color="error"
+      >delete role</v-btn>
+    </v-flex>
+    <v-flex xs12 mt-4>
+      <v-btn class="success" large @click="save">save</v-btn>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-import ChannelList from '../ChannelList';
-import NewChannelForm from '../dialogs/NewChannelForm';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: {
-    ChannelList,
-    NewChannelForm
-  },
   data() {
     return {
       editedChannel: '',
-      NewChannelForm: false
+      channelName: '',
+      activeChannel: {}
     };
   },
   computed: {
@@ -35,13 +61,19 @@ export default {
     }
   },
   methods: {
-    openNewChannelForm: function() {
-      this.NewChannelForm = true;
+    createChannel: function() {
+      this.activeServer.namespace.emit('createChannel', this.channelName);
     },
-    deleteChannel() {
+    deleteChannel: function() {
       console.log(this.editedChannel)
       const { _id } = this.activeServer.channels.find(channel => channel.channelName === this.editedChannel)
       this.activeServer.namespace.emit('deleteChannel', _id);
+    },
+    changeActiveChannel: function() {
+
+    },
+    changeToMain: function() {
+      
     }
   }
 };

@@ -3,7 +3,7 @@ const mutations = {
     state.publicNamespace = namespace;
   },
   CLEAR(state) {
-    state.publicNamespace = '';
+    state.publicNamespace = {};
   }
 };
 

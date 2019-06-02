@@ -9,12 +9,13 @@ import vuescroll from 'vue-scroll';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import colors from 'vuetify/es5/util/colors';
+import './registerServiceWorker';
 
 axios.defaults.withCredentials = true;
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://localhost:3000/api/';
 } else {
-  console.log(process.env)
+  console.log(process.env);
   axios.defaults.baseURL = `${process.env.VUE_APP_BASE_URL}/api`;
 }
 
@@ -41,8 +42,9 @@ new Vue({
     const { data } = await this.axios.get('users/checkLoginState');
     if (data) {
       this.$store.dispatch('syncWithSession', data);
+    } else {
+      this.$router.push('/login');
     }
-    this.$router.push('/login');
   },
   render: h => h(App)
 }).$mount('#app');

@@ -100,8 +100,6 @@ const actions = {
   handleLoguot({ commit, getters, dispatch }) {
     getters.servers.forEach(server => {
       server.namespace.emit('logout');
-    });
-    getters.servers.forEach(server => {
       server.namespace.removeAllListeners();
     });
     dispatch('disconnectMain', null, { root: true });
