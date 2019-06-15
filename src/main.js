@@ -12,12 +12,12 @@ import colors from 'vuetify/es5/util/colors';
 import './registerServiceWorker';
 
 axios.defaults.withCredentials = true;
-if (process.env.NODE_ENV === 'development') {
-  axios.defaults.baseURL = 'http://localhost:3000/api/';
-} else {
-  console.log(process.env);
-  axios.defaults.baseURL = `${process.env.VUE_APP_BASE_URL}/api`;
-}
+// if (process.env.NODE_ENV === 'development') {
+//   axios.defaults.baseURL = 'http://localhost:3000/api/';
+// } else {
+//   console.log(process.env);
+//   axios.defaults.baseURL = `${process.env.VUE_APP_BASE_URL}/api`;
+// }
 
 Vue.use(Vuetify, {
   iconfont: 'md',
@@ -39,7 +39,7 @@ new Vue({
   router,
   store,
   async mounted() {
-    const { data } = await this.axios.get('users/checkLoginState');
+    const { data } = await this.axios.get('/api/users/checkLoginState');
     if (data) {
       this.$store.dispatch('syncWithSession', data);
     } else {

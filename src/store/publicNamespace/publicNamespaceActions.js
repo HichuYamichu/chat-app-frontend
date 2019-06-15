@@ -3,8 +3,7 @@ import router from '@/router';
 
 const actions = {
   connectToPublic({ commit, dispatch }) {
-    const addr = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : 'http://localhost:3000';
-    const namespace = io(`${addr}/public`);
+    const namespace = io('/public');
     namespace.on('serverCreated', server => {
       dispatch('loadServer', server, { root: true });
       router.push(`/servers/${server._id}/${server.channels[0]._id}`);

@@ -51,7 +51,7 @@ export default {
     ...mapGetters(['servers', 'user'])
   },
   async created() {
-    const { data } = await this.axios.get('servers/public');
+    const { data } = await this.axios.get('/api/servers/public');
     this.serversInfo = data;
   },
   methods: {

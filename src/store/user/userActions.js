@@ -4,7 +4,7 @@ import router from '@/router';
 const actions = {
   async register({ commit, dispatch }, credentials) {
     try {
-      const user = await axios.post('users/register', {
+      const user = await axios.post('/api/users/register', {
         username: credentials.username,
         password: credentials.password,
         memberOf: []
@@ -18,7 +18,7 @@ const actions = {
   },
   async login({ commit, dispatch }, credentials) {
     try {
-      const res = await axios.post('users/login', {
+      const res = await axios.post('/api/users/login', {
         username: credentials.username,
         password: credentials.password
       });
@@ -44,7 +44,7 @@ const actions = {
     router.push('/login');
     commit('LOGOUT');
     dispatch('handleLoguot', null, { root: true });
-    axios.get('users/logout');
+    axios.get('/api/users/logout');
   }
 };
 export default actions;

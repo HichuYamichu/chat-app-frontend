@@ -43,8 +43,7 @@ export default {
   methods: {
     download: async function() {
       const link = document.createElement('a');
-      const addr = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : 'http://localhost:3000';
-      link.href = `${addr}/download/chat-app Setup 0.1.0.exe`;
+      link.href = '/download/chat-app Setup 0.1.0.exe';
       link.click();
     }
   }
