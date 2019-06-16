@@ -3,10 +3,20 @@ import io from 'socket.io-client';
 
 const actions = {
   loadServer({ commit, getters }, server) {
-    server.namespace = io(`/${server._id}`);
+    let pathPrefix;
+    if (process.env.VUE_APP_NGINX_PROXY) {
+      pathPrefix = `${process.env.VUE_APP_BASE_URL}${process.env.VUE_APP_NGINX_PROXY}`;
+    } else if (process.env.VUE_APP_BASE_URL) {
+      pathPrefix = process.env.VUE_APP_BASE_URL;
+    } else {
+      pathPrefix = 'http://localhost:3000';
+    }
+    console.log(pathPrefix);
+    console.log(`${pathPrefix}/static/${server._id}.jpg`);
+    server.namespace = io(`${pathPrefix}/${server._id}`);
     server.isActive = false;
     if (server.icon) {
-      server.icon = `/static/${server._id}.jpg`;
+      server.icon = `${pathPrefix}/static/${server._id}.jpg`;
     } else {
       server.icon = '/img/serverIcon.png';
     }

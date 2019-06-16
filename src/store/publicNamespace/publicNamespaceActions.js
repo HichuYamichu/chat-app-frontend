@@ -3,7 +3,15 @@ import router from '@/router';
 
 const actions = {
   connectToPublic({ commit, dispatch }) {
-    const namespace = io('/public');
+    let pathPrefix;
+    if (process.env.VUE_APP_NGINX_PROXY) {
+      pathPrefix = `${process.env.VUE_APP_BASE_URL}${process.env.VUE_APP_NGINX_PROXY}`;
+    } else if (process.env.VUE_APP_BASE_URL) {
+      pathPrefix = process.env.VUE_APP_BASE_URL;
+    } else {
+      pathPrefix = 'http://localhost:3000';
+    }
+    const namespace = io(`${pathPrefix}/public`);
     namespace.on('serverCreated', server => {
       dispatch('loadServer', server, { root: true });
       router.push(`/servers/${server._id}/${server.channels[0]._id}`);

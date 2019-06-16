@@ -26,5 +26,6 @@ module.exports = {
         }
       }
     }
-  }
+  },
+  publicPath: process.env.VUE_APP_NGINX_PROXY ? process.env.VUE_APP_NGINX_PROXY : ''
 };
