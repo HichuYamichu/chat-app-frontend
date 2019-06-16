@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 const actions = {
   loadServer({ commit, getters }, server) {
     let pathPrefix;
+    const ioAddr = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : 'http://localhost:3000';
     if (process.env.VUE_APP_NGINX_PROXY) {
       pathPrefix = `${process.env.VUE_APP_BASE_URL}${process.env.VUE_APP_NGINX_PROXY}`;
     } else if (process.env.VUE_APP_BASE_URL) {
@@ -11,9 +12,7 @@ const actions = {
     } else {
       pathPrefix = 'http://localhost:3000';
     }
-    console.log(pathPrefix);
-    console.log(`${pathPrefix}/static/${server._id}.jpg`);
-    server.namespace = io(`${pathPrefix}/${server._id}`);
+    server.namespace = io(`${ioAddr}/${server._id}`);
     server.isActive = false;
     if (server.icon) {
       server.icon = `${pathPrefix}/static/${server._id}.jpg`;
